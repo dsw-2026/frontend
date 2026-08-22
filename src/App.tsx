@@ -1,5 +1,8 @@
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { Layout } from './components/layout/Layout'
+import { LandingPage } from './pages/landing/LandingPage'
+import { LoginPlaceholderPage } from './pages/landing/LoginPlaceholderPage'
+import { RegistroPage } from './pages/landing/RegistroPage'
 import { EspeciesListPage } from './pages/especies/EspeciesListPage'
 import { EspecieFormPage } from './pages/especies/EspecieFormPage'
 import { ProvinciasListPage } from './pages/provincias/ProvinciasListPage'
@@ -8,15 +11,29 @@ import { LocalidadesListPage } from './pages/localidades/LocalidadesListPage'
 import { LocalidadFormPage } from './pages/localidades/LocalidadFormPage'
 import { PublicadoresListPage } from './pages/publicadores/PublicadoresListPage'
 import { PublicadorFormPage } from './pages/publicadores/PublicadorFormPage'
+import { AdoptantesListPage } from './pages/adoptantes/AdoptantesListPage'
+import { AdoptanteFormPage } from './pages/adoptantes/AdoptanteFormPage'
+import { MascotasListPage } from './pages/mascotas/MascotasListPage'
+import { MascotaFormPage } from './pages/mascotas/MascotaFormPage'
+import { SolicitudesListPage } from './pages/solicitudes/SolicitudesListPage'
+import { SolicitudFormPage } from './pages/solicitudes/SolicitudFormPage'
+import { SolicitudDetallePage } from './pages/solicitudes/SolicitudDetallePage'
+import { AdoptarPage } from './pages/adoptar/AdoptarPage'
 
-// Todas las rutas viven bajo <Layout />, que pone el header/nav una sola
-// vez y renderiza la página activa dentro de <Outlet />.
+// "/" y sus vecinas (login, registro) son públicas, SIN el <Layout> de
+// gestión (sin el nav interno) — son la puerta de entrada de la Minuta,
+// antes de loguearse. Todo lo demás sigue viviendo bajo <Layout /> tal
+// cual estaba, solo que ya no es lo primero que se ve al entrar.
 function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/login" element={<LoginPlaceholderPage />} />
+        <Route path="/registro" element={<RegistroPage />} />
+
         <Route element={<Layout />}>
-          <Route index element={<Navigate to="/especies" replace />} />
+          <Route path="adoptar" element={<AdoptarPage />} />
           <Route path="especies" element={<EspeciesListPage />} />
           <Route path="especies/nueva" element={<EspecieFormPage />} />
           <Route path="especies/:id/editar" element={<EspecieFormPage />} />
@@ -29,6 +46,15 @@ function App() {
           <Route path="publicadores" element={<PublicadoresListPage />} />
           <Route path="publicadores/nuevo" element={<PublicadorFormPage />} />
           <Route path="publicadores/:id/editar" element={<PublicadorFormPage />} />
+          <Route path="adoptantes" element={<AdoptantesListPage />} />
+          <Route path="adoptantes/nuevo" element={<AdoptanteFormPage />} />
+          <Route path="adoptantes/:id/editar" element={<AdoptanteFormPage />} />
+          <Route path="mascotas" element={<MascotasListPage />} />
+          <Route path="mascotas/nueva" element={<MascotaFormPage />} />
+          <Route path="mascotas/:id/editar" element={<MascotaFormPage />} />
+          <Route path="solicitudes" element={<SolicitudesListPage />} />
+          <Route path="solicitudes/nueva" element={<SolicitudFormPage />} />
+          <Route path="solicitudes/:id" element={<SolicitudDetallePage />} />
         </Route>
       </Routes>
     </BrowserRouter>
