@@ -1,0 +1,120 @@
+.landing {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 3rem 1.5rem;
+  background: var(--color-bg);
+}
+
+.landing-hero {
+  max-width: 560px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.landing-logo {
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: var(--color-primary);
+}
+
+.landing-tagline {
+  font-size: 1.05rem;
+  color: var(--color-accent);
+  font-weight: 700;
+  margin: 0;
+}
+
+.landing-hero h1 {
+  font-size: 1.4rem;
+  margin: 0.25rem 0 0;
+}
+
+.landing-description {
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  margin: 0.5rem 0 1.25rem;
+}
+
+.landing-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.landing-contact {
+  margin-top: 3rem;
+}
+
+.landing-contact h2 {
+  font-size: 1.05rem;
+  margin: 0 0 0.5rem;
+}
+
+.landing-contact ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  color: var(--color-text-muted);
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 0.9rem;
+}
+
+.landing-footer {
+  margin-top: 3rem;
+}
+
+.landing-internal-link {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+.registro-opciones {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+  max-width: 640px;
+  width: 100%;
+  margin: 1.5rem 0;
+}
+
+@media (min-width: 560px) {
+  .registro-opciones {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.registro-card {
+  display: block;
+  background: var(--color-surface);
+  border: 1px solid #e6e3db;
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  text-decoration: none;
+  color: var(--color-text);
+  transition: border-color 0.15s ease;
+}
+
+.registro-card:hover {
+  border-color: var(--color-primary);
+}
+
+.registro-card h2 {
+  margin: 0 0 0.4rem;
+  font-size: 1.05rem;
+  color: var(--color-primary);
+}
+
+.registro-card p {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
