@@ -1,0 +1,63 @@
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  background: var(--color-bg);
+  color: var(--color-text);
+  border-bottom: 3px solid var(--color-primary-light);
+}
+
+.app-logo {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.app-nav {
+  display: flex;
+  gap: 1.25rem;
+}
+
+.app-nav a {
+  color: var(--color-text-muted);
+  text-decoration: none;
+  font-weight: 500;
+  padding-bottom: 0.15rem;
+  border-bottom: 2px solid transparent;
+}
+
+.app-nav a.active,
+.app-nav a:hover {
+  color: var(--color-primary);
+  border-bottom-color: var(--color-accent);
+}
+
+.app-content {
+  flex: 1;
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem 3rem;
+}
+
+/* A partir de pantallas tipo tablet, header en una sola fila */
+@media (min-width: 640px) {
+  .app-header {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+  }
+
+  .app-content {
+    padding: 2rem 2rem 3rem;
+  }
+}
