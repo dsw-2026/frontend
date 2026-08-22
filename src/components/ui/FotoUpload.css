@@ -1,0 +1,38 @@
+.foto-upload {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.foto-upload-preview {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  border: 1px solid #e6e3db;
+}
+
+.foto-upload-controls {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.foto-upload-btn {
+  cursor: pointer;
+}
+
+.foto-upload-quitar {
+  background: none;
+  border: none;
+  color: var(--color-danger);
+  font-size: 0.85rem;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+}
+
+.foto-upload-quitar:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
