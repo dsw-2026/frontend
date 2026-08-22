@@ -5,9 +5,13 @@ const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:3000/api'
 
 // Forma en la que el backend envuelve todas sus respuestas
 // (ver res.status(...).json({ message, data }) en los controllers).
+// "field" es opcional: solo viene en errores 409 de conflicto de
+// unicidad (ver ConflictoUnicidadError en el backend), para poder
+// marcar el campo puntual que chocó en vez de un error genérico.
 interface ApiEnvelope<T> {
   message: string
   data: T
+  field?: string
 }
 
 // Error tipado para poder distinguir "falló la red" de "el backend respondió
@@ -15,17 +19,26 @@ interface ApiEnvelope<T> {
 // backend en vez de uno genérico.
 export class ApiError extends Error {
   status: number
-  constructor(message: string, status: number) {
+  field?: string
+  constructor(message: string, status: number, field?: string) {
     super(message)
     this.status = status
+    this.field = field
   }
 }
 
 async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
+  // Si el body es un FormData (subida de archivo), NO hay que fijar
+  // Content-Type manualmente: el navegador arma el header
+  // "multipart/form-data; boundary=..." solo, con el boundary correcto.
+  // Si lo pisamos con "application/json", el backend no puede parsear
+  // el archivo.
+  const esFormData = options.body instanceof FormData
+
   const response = await fetch(`${API_URL}${path}`, {
     ...options,
     headers: {
-      'Content-Type': 'application/json',
+      ...(!esFormData && { 'Content-Type': 'application/json' }),
       ...options.headers,
     },
   })
@@ -35,7 +48,7 @@ async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
   const body = (await response.json()) as ApiEnvelope<T>
 
   if (!response.ok) {
-    throw new ApiError(body.message ?? 'Ocurrió un error inesperado', response.status)
+    throw new ApiError(body.message ?? 'Ocurrió un error inesperado', response.status, body.field)
   }
 
   return body.data
@@ -50,4 +63,14 @@ export const httpClient = {
   put: <T>(path: string, body: unknown) => request<T>(path, { method: 'PUT', body: JSON.stringify(body) }),
   patch: <T>(path: string, body: unknown) => request<T>(path, { method: 'PATCH', body: JSON.stringify(body) }),
   delete: <T>(path: string) => request<T>(path, { method: 'DELETE' }),
+  // Para subir archivos: el FormData va tal cual como body, sin
+  // JSON.stringify (rompería el archivo) y sin forzar Content-Type
+  // (ver el chequeo esFormData de arriba).
+  uploadFile: <T>(path: string, formData: FormData) => request<T>(path, { method: 'POST', body: formData }),
 }
+
+// El backend devuelve URLs de archivos como rutas relativas
+// (ej: "/uploads/x.png", servidas por express.static, fuera del prefijo
+// /api). Para armar la URL completa que necesita un <img src>, hay que
+// pegarle el origin de la API SIN el "/api" final.
+export const API_ORIGIN = API_URL.replace(/\/api\/?$/, '')
