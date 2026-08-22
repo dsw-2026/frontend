@@ -11,6 +11,9 @@ export function Layout() {
           🐾 Fluffy
         </Link>
         <nav className="app-nav">
+          <NavLink to="/adoptar" className={({ isActive }) => (isActive ? 'active' : '')}>
+            Adoptar
+          </NavLink>
           <NavLink to="/especies" className={({ isActive }) => (isActive ? 'active' : '')}>
             Especies
           </NavLink>
@@ -22,6 +25,15 @@ export function Layout() {
           </NavLink>
           <NavLink to="/publicadores" className={({ isActive }) => (isActive ? 'active' : '')}>
             Publicadores
+          </NavLink>
+          <NavLink to="/adoptantes" className={({ isActive }) => (isActive ? 'active' : '')}>
+            Adoptantes
+          </NavLink>
+          <NavLink to="/mascotas" className={({ isActive }) => (isActive ? 'active' : '')}>
+            Mascotas
+          </NavLink>
+          <NavLink to="/solicitudes" className={({ isActive }) => (isActive ? 'active' : '')}>
+            Solicitudes
           </NavLink>
         </nav>
       </header>
