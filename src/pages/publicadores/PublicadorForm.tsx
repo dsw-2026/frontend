@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from 'react'
 import { Button } from '../../components/ui/Button'
+import { FotoUpload } from '../../components/ui/FotoUpload'
 import { TipoPublicador, type PublicadorInput } from '../../models/publicador'
 import type { Localidad } from '../../models/localidad'
 
@@ -167,8 +168,8 @@ export function PublicadorForm({
         <textarea value={descripcion} onChange={(event) => setDescripcion(event.target.value)} rows={3} />
       </label>
       <label className="form-field">
-        <span>Foto de perfil (URL)</span>
-        <input type="url" value={fotoPerfil} onChange={(event) => setFotoPerfil(event.target.value)} />
+        <span>Foto de perfil</span>
+        <FotoUpload value={fotoPerfil} onChange={setFotoPerfil} label="foto" />
       </label>
 
       <h2 className="form-section-title">Datos de Publicador</h2>

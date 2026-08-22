@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import type { Publicador } from '../../models/publicador'
 import { Button } from '../../components/ui/Button'
+import { AvatarZoom } from '../../components/ui/AvatarZoom'
 
 interface PublicadorTableProps {
   publicadores: Publicador[]
@@ -17,6 +18,7 @@ export function PublicadorTable({ publicadores, onDelete }: PublicadorTableProps
       <table className="data-table">
         <thead>
           <tr>
+            <th aria-label="Foto" />
             <th>Nombre</th>
             <th>Email</th>
             <th>Verificado</th>
@@ -26,6 +28,13 @@ export function PublicadorTable({ publicadores, onDelete }: PublicadorTableProps
         <tbody>
           {publicadores.map((publicador) => (
             <tr key={publicador.id}>
+              <td>
+                <AvatarZoom
+                  src={publicador.fotoPerfil}
+                  alt={`${publicador.nombre} ${publicador.apellido}`}
+                  fallbackText={publicador.nombre.charAt(0).toUpperCase()}
+                />
+              </td>
               <td>
                 {publicador.nombre} {publicador.apellido}
               </td>
