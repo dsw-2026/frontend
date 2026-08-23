@@ -1,0 +1,13 @@
+.paw {
+  position: absolute;
+}
+
+.paw-toe,
+.paw-pad {
+  position: absolute;
+  border-radius: 50%;
+}
+
+.paw-pad {
+  border-radius: 50% 50% 46% 46%;
+}

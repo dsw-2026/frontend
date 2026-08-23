@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
-import './LandingPage.css'
+import fluffyLogo from '../../assets/fluffy-logo.png'
+import './SimplePage.css'
 
 // Reutiliza los formularios de creación de Adoptante/Publicador que ya
 // existen (son, funcionalmente, el alta de cada uno) — no se duplica el
@@ -10,19 +11,19 @@ import './LandingPage.css'
 // flujos junto con auth).
 export function RegistroPage() {
   return (
-    <div className="landing">
-      <div className="landing-hero">
-        <div className="landing-logo">🐾 Fluffy</div>
+    <div className="simple-page">
+      <div className="simple-page-content">
+        <img src={fluffyLogo} alt="Fluffy" className="simple-page-logo" />
         <h1>Registrarme</h1>
-        <p className="landing-description">¿Cómo querés usar Fluffy?</p>
+        <p className="simple-page-description">¿Cómo querés usar Fluffy?</p>
       </div>
 
-      <div className="registro-opciones">
-        <Link to="/adoptantes/nuevo" className="registro-card">
+      <div className="simple-page-registro">
+        <Link to="/adoptantes/nuevo" className="simple-page-card">
           <h2>Quiero adoptar</h2>
           <p>Buscá una mascota y enviá solicitudes de adopción.</p>
         </Link>
-        <Link to="/publicadores/nuevo" className="registro-card">
+        <Link to="/publicadores/nuevo" className="simple-page-card">
           <h2>Quiero publicar mascotas</h2>
           <p>Soy un refugio, rescatista u hogar de tránsito.</p>
         </Link>

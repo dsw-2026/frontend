@@ -1,4 +1,5 @@
 import { Link, NavLink, Outlet } from 'react-router-dom'
+import { Paw } from '../ui/Paw'
 import './Layout.css'
 
 // Un solo Layout para toda la app: define header/nav una vez, y cada
@@ -8,7 +9,14 @@ export function Layout() {
     <div className="app-shell">
       <header className="app-header">
         <Link to="/" className="app-logo">
-          🐾 Fluffy
+          {/* Reemplaza el emoji 🐾: el emoji lo pinta el sistema operativo
+              con SUS colores (no controlables por CSS) — con Paw usamos
+              los colores reales de la marca. */}
+          <span className="app-logo-paws" aria-hidden="true">
+            <Paw size={16} toeColor="#8fc5e8" padColor="#2d8fc4" style={{ position: 'relative' }} />
+            <Paw size={16} toeColor="#f5c130" padColor="#f5c130" style={{ position: 'relative' }} />
+          </span>
+          Fluffy
         </Link>
         <nav className="app-nav">
           <NavLink to="/adoptar" className={({ isActive }) => (isActive ? 'active' : '')}>

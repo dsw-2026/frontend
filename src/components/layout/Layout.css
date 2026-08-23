@@ -15,10 +15,19 @@
 }
 
 .app-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
   font-size: 1.25rem;
   font-weight: 700;
   color: var(--color-primary);
   text-decoration: none;
+}
+
+.app-logo-paws {
+  display: inline-flex;
+  align-items: center;
+  gap: 1px;
 }
 
 .app-nav {
