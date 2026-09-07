@@ -37,6 +37,10 @@ async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
 
   const response = await fetch(`${API_URL}${path}`, {
     ...options,
+    // Envía las cookies (incluida la de autenticación httpOnly) aunque la
+    // petición vaya a otro origen (frontend en :5173, backend en :3000).
+    // Sin esto, fetch no manda la cookie del token y el backend responde 401.
+    credentials: 'include',
     headers: {
       ...(!esFormData && { 'Content-Type': 'application/json' }),
       ...options.headers,
@@ -69,8 +73,7 @@ export const httpClient = {
   uploadFile: <T>(path: string, formData: FormData) => request<T>(path, { method: 'POST', body: formData }),
 }
 
-// El backend devuelve URLs de archivos como rutas relativas
-// (ej: "/uploads/x.png", servidas por express.static, fuera del prefijo
-// /api). Para armar la URL completa que necesita un <img src>, hay que
-// pegarle el origin de la API SIN el "/api" final.
 export const API_ORIGIN = API_URL.replace(/\/api\/?$/, '')
+
+// El backend devuelve URLs de archivos como rutas relativas
+// (ej: "/uploads/x.png",
