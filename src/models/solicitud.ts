@@ -28,13 +28,14 @@ export interface Solicitud {
   adoptante: Adoptante
 }
 
-// Lo que se envía al crear una Solicitud (Epic A). No existe un "update"
-// genérico: el único cambio de estado posible es aprobar/rechazar (Epic
-// B), que son endpoints propios — no un PUT/PATCH con el estado en el body.
+// Lo que se envía al crear una Solicitud (Epic A). El adoptante NO va acá:
+// lo toma el backend del token de la sesión, para que nadie pueda crear una
+// solicitud a nombre de otro. No existe un "update" genérico: el único
+// cambio de estado posible es aprobar/rechazar (Epic B), que son endpoints
+// propios - no un PUT/PATCH con el estado en el body.
 export interface SolicitudInput {
   mensaje?: string
   mascota: number
-  adoptante: number
   energiaDeseada: Energia
   tamanioDeseado: Tamanio
   toleraNinosDeseado: Tolerancia

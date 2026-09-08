@@ -2,10 +2,10 @@ import { useState, type FormEvent } from 'react'
 import { Link } from 'react-router-dom'
 import { Button } from '../../components/ui/Button'
 import { API_ORIGIN } from '../../api/httpClient'
+import { useAuth } from '../../api/AuthContext'
 import { Energia, Tamanio, Tolerancia } from '../../models/mascota'
 import type { SolicitudInput } from '../../models/solicitud'
 import type { Mascota } from '../../models/mascota'
-import type { Adoptante } from '../../models/adoptante'
 
 interface SolicitudFormProps {
   // Si viene una mascota fija (desde /adoptar → "Solicitar adopción"), se
@@ -15,7 +15,6 @@ interface SolicitudFormProps {
   // Si NO hay mascota fija (acceso directo al formulario, ej. desde el
   // panel interno), se ofrece el <select> de siempre con esta lista.
   mascotasDisponibles?: Mascota[]
-  adoptantes: Adoptante[]
   onSubmit: (values: SolicitudInput) => void
   submitting: boolean
 }
@@ -32,12 +31,15 @@ const TOLERANCIA_LABELS: Record<Tolerancia, string> = { SI: 'Sí', NO: 'No', DES
 export function SolicitudForm({
   mascotaFija,
   mascotasDisponibles = [],
-  adoptantes,
   onSubmit,
   submitting,
 }: SolicitudFormProps) {
+  // Solo para mostrar a nombre de quién va la solicitud. NO se envía: el
+  // backend toma el adoptante del token, así que el frontend no decide
+  // (ni puede falsear) quién es el autor.
+  const { usuario } = useAuth()
+
   const [mascotaId, setMascotaId] = useState(mascotaFija ? String(mascotaFija.id) : '')
-  const [adoptanteId, setAdoptanteId] = useState('')
   const [mensaje, setMensaje] = useState('')
 
   // Preferencias del adoptante para ESTA solicitud puntual. Se comparan
@@ -53,7 +55,6 @@ export function SolicitudForm({
     event.preventDefault()
     onSubmit({
       mascota: Number(mascotaId),
-      adoptante: Number(adoptanteId),
       mensaje: mensaje.trim() || undefined,
       energiaDeseada,
       tamanioDeseado,
@@ -97,29 +98,18 @@ export function SolicitudForm({
         </label>
       )}
 
-      <label className="form-field">
-        <span>Adoptante</span>
-        <select
-          value={adoptanteId}
-          onChange={(event) => setAdoptanteId(event.target.value)}
-          required
-          autoFocus={Boolean(mascotaFija)}
-        >
-          <option value="" disabled>
-            Seleccioná un adoptante
-          </option>
-          {adoptantes.map((adoptante) => (
-            <option key={adoptante.id} value={adoptante.id}>
-              {adoptante.nombre} {adoptante.apellido}
-            </option>
-          ))}
-        </select>
-      </label>
+      <p className="form-hint">
+        Solicitás como <strong>{usuario?.nombreUsuario}</strong>
+      </p>
 
       <h2 className="form-section-title">¿Qué buscás en tu mascota?</h2>
       <label className="form-field">
         <span>Nivel de energía que buscás</span>
-        <select value={energiaDeseada} onChange={(event) => setEnergiaDeseada(event.target.value as Energia)}>
+        <select
+          value={energiaDeseada}
+          onChange={(event) => setEnergiaDeseada(event.target.value as Energia)}
+          autoFocus={Boolean(mascotaFija)}
+        >
           {Object.values(Energia).map((valor) => (
             <option key={valor} value={valor}>
               {ENERGIA_LABELS[valor]}

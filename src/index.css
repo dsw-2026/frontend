@@ -99,6 +99,13 @@ a {
   max-width: 560px;
 }
 
+/* Aclaración dentro de un formulario: informativa, no es un campo. */
+.form-hint {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+}
+
 .form-section-title {
   font-size: 1rem;
   color: var(--color-text-muted);

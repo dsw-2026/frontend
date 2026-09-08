@@ -2,10 +2,8 @@ import { useEffect, useState } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { solicitudService } from '../../services/solicitud.service'
 import { mascotaService } from '../../services/mascota.service'
-import { adoptanteService } from '../../services/adoptante.service'
 import type { SolicitudInput } from '../../models/solicitud'
 import type { Mascota } from '../../models/mascota'
-import type { Adoptante } from '../../models/adoptante'
 import { SolicitudForm } from './SolicitudForm'
 import { ApiError } from '../../api/httpClient'
 
@@ -18,7 +16,6 @@ export function SolicitudFormPage() {
 
   const [mascotaFija, setMascotaFija] = useState<Mascota | null>(null)
   const [mascotasDisponibles, setMascotasDisponibles] = useState<Mascota[]>([])
-  const [adoptantes, setAdoptantes] = useState<Adoptante[]>([])
   const [loading, setLoading] = useState(true)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -26,31 +23,22 @@ export function SolicitudFormPage() {
   useEffect(() => {
     let cancelado = false
 
-    const pedidos: Promise<unknown>[] = [
-      adoptanteService.getAll().then((data) => {
-        if (!cancelado) setAdoptantes(data)
-      }),
-    ]
-
-    if (mascotaIdParam) {
-      // Ya sabemos cuál mascota es: solo hace falta traer esa, no la
-      // lista completa de disponibles.
-      pedidos.push(
+    // Acá NO se piden los adoptantes: quién solicita lo resuelve el backend
+    // desde el token (ver solicitud.controller.ts). Además el listado
+    // completo de adoptantes es solo para Admin, así que pedirlo rompía la
+    // pantalla con un 403 justo para el único rol que puede solicitar.
+    const pedido = mascotaIdParam
+      ? // Ya sabemos cuál mascota es: solo hace falta traer esa.
         mascotaService.getById(Number(mascotaIdParam)).then((data) => {
           if (!cancelado) setMascotaFija(data)
         })
-      )
-    } else {
-      // Acceso directo al formulario (ej: desde el panel interno): se
-      // ofrece el <select> con todas las disponibles, como antes.
-      pedidos.push(
+      : // Acceso directo al formulario: se ofrece el <select> con todas
+        // las disponibles.
         mascotaService.getAll('DISPONIBLE').then((data) => {
           if (!cancelado) setMascotasDisponibles(data)
         })
-      )
-    }
 
-    Promise.all(pedidos)
+    pedido
       .catch((err) => {
         if (!cancelado) {
           setError(err instanceof ApiError ? err.message : 'No se pudo cargar la información necesaria')
@@ -79,9 +67,7 @@ export function SolicitudFormPage() {
 
   if (loading) return <p>Cargando…</p>
 
-  const faltantes: string[] = []
-  if (!mascotaFija && mascotasDisponibles.length === 0) faltantes.push('ninguna mascota disponible')
-  if (adoptantes.length === 0) faltantes.push('ningún adoptante')
+  const sinMascotas = !mascotaFija && mascotasDisponibles.length === 0
 
   return (
     <section>
@@ -91,16 +77,14 @@ export function SolicitudFormPage() {
       <h1>Nueva solicitud de adopción</h1>
       {error && <p className="error-message">{error}</p>}
 
-      {faltantes.length > 0 ? (
+      {sinMascotas ? (
         <p className="empty-state">
-          Todavía no hay {faltantes.join(' ni ')}. Hace falta al menos una mascota disponible y un adoptante
-          cargado para poder generar una solicitud.
+          Todavía no hay ninguna mascota disponible para adoptar.
         </p>
       ) : (
         <SolicitudForm
           mascotaFija={mascotaFija ?? undefined}
           mascotasDisponibles={mascotasDisponibles}
-          adoptantes={adoptantes}
           onSubmit={handleSubmit}
           submitting={submitting}
         />
