@@ -43,6 +43,23 @@
   border-bottom: 2px solid transparent;
 }
 
+/* Bloque de sesión del header: nombre de usuario + botón de salir. */
+.app-session {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+}
+
+/* El botón de salir es una acción secundaria del header: más chico que
+   los botones de las pantallas, para que no compita con el contenido. */
+.app-session .btn {
+  padding: 0.4rem 0.9rem;
+  font-size: 0.85rem;
+}
+
 .app-nav a.active,
 .app-nav a:hover {
   color: var(--color-primary);

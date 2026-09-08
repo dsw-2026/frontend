@@ -46,28 +46,35 @@ export function LoginPlaceholderPage() {
         <img src={fluffyLogo} alt="Fluffy" className="simple-page-logo" />
         <h1>Iniciar sesión</h1>
 
-        <form onSubmit={handleSubmit} className="login-form">
+      <form onSubmit={handleSubmit} className="login-form">
+        <label className="form-field">
+          <span>Email</span>
           <input
             type="email"
-            placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
+            autoComplete="email"
           />
+        </label>
+
+        <label className="form-field">
+          <span>Contraseña</span>
           <input
             type="password"
-            placeholder="Contraseña"
             value={contrasena}
             onChange={(e) => setContrasena(e.target.value)}
             required
+            autoComplete="current-password"
           />
+        </label>
 
-          {error && <p className="error-message">{error}</p>}
+        {error && <p className="error-message">{error}</p>}
 
-          <button type="submit" className="landing-btn landing-btn-primary" disabled={cargando}>
-            {cargando ? 'Ingresando…' : 'Ingresar'}
-          </button>
-        </form>
+        <button type="submit" className="landing-btn landing-btn-primary" disabled={cargando}>
+          {cargando ? 'Ingresando…' : 'Ingresar'}
+        </button>
+      </form>
 
         <Link to="/registro" className="back-link">
           ¿No tenés cuenta? Registrate

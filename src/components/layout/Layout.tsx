@@ -2,6 +2,7 @@ import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { Paw } from '../ui/Paw'
 import { useAuth } from '../../api/AuthContext'
 import './Layout.css'
+import { Button } from '../ui/Button'
 
 export function Layout() {
   const { usuario, logout } = useAuth()
@@ -77,9 +78,9 @@ export function Layout() {
         {usuario && (
           <div className="app-session">
             <span>{usuario.nombreUsuario} ({usuario.tipoUsuario})</span>
-            <button onClick={handleLogout} className="btn btn-secondary">
+            <Button variant="secondary" onClick={handleLogout}>
               Cerrar sesión
-            </button>
+            </Button>
           </div>
         )}
       </header>
