@@ -1,10 +1,19 @@
-import { Link, NavLink, Outlet } from 'react-router-dom'
+import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { Paw } from '../ui/Paw'
+import { useAuth } from '../../api/AuthContext'
 import './Layout.css'
 
 // Un solo Layout para toda la app: define header/nav una vez, y cada
 // página (ver App.tsx) se renderiza adentro vía <Outlet />.
 export function Layout() {
+  const { usuario, logout } = useAuth()
+  const navigate = useNavigate()
+
+  async function handleLogout() {
+    await logout()
+    navigate('/login')
+  }
+
   return (
     <div className="app-shell">
       <header className="app-header">
@@ -44,6 +53,17 @@ export function Layout() {
             Solicitudes
           </NavLink>
         </nav>
+
+        {/* Sección de sesión: muestra quién está logueado y permite salir.
+            Solo aparece si hay un usuario en el context (usuario !== null). */}
+        {usuario && (
+          <div className="app-session">
+            <span>{usuario.nombreUsuario} ({usuario.tipoUsuario})</span>
+            <button onClick={handleLogout} className="btn btn-secondary">
+              Cerrar sesión
+            </button>
+          </div>
+        )}
       </header>
       <main className="app-content">
         <Outlet />
