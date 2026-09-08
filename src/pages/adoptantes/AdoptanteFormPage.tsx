@@ -7,7 +7,14 @@ import type { Localidad } from '../../models/localidad'
 import { AdoptanteForm } from './AdoptanteForm'
 import { ApiError } from '../../api/httpClient'
 
-export function AdoptanteFormPage() {
+interface AdoptanteFormPageProps {
+  // true cuando la pantalla se usa como registro público (/registro/adoptante).
+  // Cambia el título, el link de vuelta y a dónde va después de guardar:
+  // quien se está registrando no tiene por qué terminar en el panel de Admin.
+  modoRegistro?: boolean
+}
+
+export function AdoptanteFormPage({ modoRegistro = false }: AdoptanteFormPageProps) {
   const { id } = useParams()
   const isEdit = Boolean(id)
   const navigate = useNavigate()
@@ -60,7 +67,9 @@ export function AdoptanteFormPage() {
       } else {
         await adoptanteService.create(values)
       }
-      navigate('/adoptantes')
+      // Registrarse no deja sesión iniciada (el alta no devuelve token),
+      // así que el paso siguiente es loguearse con la cuenta recién creada.
+      navigate(modoRegistro ? '/login' : '/adoptantes')
     } catch (err) {
       if (err instanceof ApiError && err.field) {
         setFieldErrors({ [err.field]: err.message })
@@ -75,10 +84,12 @@ export function AdoptanteFormPage() {
 
   return (
     <section>
-      <Link to="/adoptantes" className="back-link">
-        ← Volver a adoptantes
+      <Link to={modoRegistro ? '/registro' : '/adoptantes'} className="back-link">
+        {modoRegistro ? '← Volver' : '← Volver a adoptantes'}
       </Link>
-      <h1>{isEdit ? 'Editar adoptante' : 'Nuevo adoptante'}</h1>
+      <h1>
+        {modoRegistro ? 'Crear cuenta de adoptante' : isEdit ? 'Editar adoptante' : 'Nuevo adoptante'}
+      </h1>
       {error && <p className="error-message">{error}</p>}
       <AdoptanteForm
         initialValues={

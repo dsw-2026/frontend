@@ -20,6 +20,7 @@ import { SolicitudesListPage } from './pages/solicitudes/SolicitudesListPage'
 import { SolicitudFormPage } from './pages/solicitudes/SolicitudFormPage'
 import { SolicitudDetallePage } from './pages/solicitudes/SolicitudDetallePage'
 import { AdoptarPage } from './pages/adoptar/AdoptarPage'
+import { LayoutPublico } from './components/layout/LayoutPublico'
 
 // "/" y sus vecinas (login, registro) son públicas, SIN el <Layout> de
 // gestión (sin el nav interno) — son la puerta de entrada, antes de
@@ -35,8 +36,10 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<LoginPlaceholderPage />} />
         <Route path="/registro" element={<RegistroPage />} />
-        <Route path="/registro/adoptante" element={<AdoptanteFormPage />} />
-        <Route path="/registro/publicador" element={<PublicadorFormPage />} />
+        <Route element={<LayoutPublico />}>
+          <Route path="/registro/adoptante" element={<AdoptanteFormPage modoRegistro />} />
+          <Route path="/registro/publicador" element={<PublicadorFormPage modoRegistro />} />
+        </Route>
 
         <Route element={<RutaProtegida />}>
           <Route element={<Layout />}>

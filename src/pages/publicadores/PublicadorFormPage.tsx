@@ -7,7 +7,12 @@ import type { Localidad } from '../../models/localidad'
 import { PublicadorForm } from './PublicadorForm'
 import { ApiError } from '../../api/httpClient'
 
-export function PublicadorFormPage() {
+interface PublicadorFormPageProps {
+  // Ver el comentario equivalente en AdoptanteFormPage.
+  modoRegistro?: boolean
+}
+
+export function PublicadorFormPage({ modoRegistro = false }: PublicadorFormPageProps) {
   const { id } = useParams()
   const isEdit = Boolean(id)
   const navigate = useNavigate()
@@ -60,7 +65,7 @@ export function PublicadorFormPage() {
       } else {
         await publicadorService.create(values)
       }
-      navigate('/publicadores')
+      navigate(modoRegistro ? '/login' : '/publicadores')
     } catch (err) {
       // Un 409 de conflicto de unicidad trae "field" (ver assertUnico en
       // el backend): en ese caso se marca el campo puntual en el
@@ -78,10 +83,12 @@ export function PublicadorFormPage() {
 
   return (
     <section>
-      <Link to="/publicadores" className="back-link">
-        ← Volver a publicadores
+      <Link to={modoRegistro ? '/registro' : '/publicadores'} className="back-link">
+        {modoRegistro ? '← Volver' : '← Volver a publicadores'}
       </Link>
-      <h1>{isEdit ? 'Editar publicador' : 'Nuevo publicador'}</h1>
+      <h1>
+        {modoRegistro ? 'Crear cuenta de publicador' : isEdit ? 'Editar publicador' : 'Nuevo publicador'}
+      </h1>
       {error && <p className="error-message">{error}</p>}
       <PublicadorForm
         initialValues={
