@@ -66,6 +66,8 @@ export interface Mascota {
 // de una clave "caracteristica". El backend los separa recién en
 // sanitizeMascotaInput, leyendo req.body.energia directo del nivel
 // superior. Si se manda anidado, el backend los ignora en silencio.
+// El publicador NO va acá: lo toma el backend del token de la sesión
+// (ver mascota.controller.ts), para que nadie publique a nombre de otro.
 export interface MascotaInput {
   nombre: string
   sexo: Sexo
@@ -74,7 +76,6 @@ export interface MascotaInput {
   estado: EstadoMascota
   foto?: string
   especie: number
-  publicador: number
   energia: Energia
   caracter: string
   tamanio: Tamanio

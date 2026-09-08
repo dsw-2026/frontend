@@ -11,7 +11,6 @@ import {
   type MascotaInput,
 } from '../../models/mascota'
 import type { Especie } from '../../models/especie'
-import type { Publicador } from '../../models/publicador'
 
 interface MascotaFormValues {
   nombre: string
@@ -21,7 +20,6 @@ interface MascotaFormValues {
   estado: EstadoMascota
   foto: string
   especieId: number | ''
-  publicadorId: number | ''
   energia: Energia
   caracter: string
   tamanio: Tamanio
@@ -36,7 +34,6 @@ interface MascotaFormValues {
 interface MascotaFormProps {
   initialValues?: MascotaFormValues
   especies: Especie[]
-  publicadores: Publicador[]
   onSubmit: (values: MascotaInput) => void
   submitting: boolean
 }
@@ -61,7 +58,7 @@ const TAMANIO_LABELS: Record<Tamanio, string> = {
 const ENERGIA_LABELS: Record<Energia, string> = { BAJA: 'Baja', MEDIA: 'Media', ALTA: 'Alta' }
 const TOLERANCIA_LABELS: Record<Tolerancia, string> = { SI: 'Sí', NO: 'No', DESCONOCIDO: 'Desconocido' }
 
-export function MascotaForm({ initialValues, especies, publicadores, onSubmit, submitting }: MascotaFormProps) {
+export function MascotaForm({ initialValues, especies, onSubmit, submitting }: MascotaFormProps) {
   const [nombre, setNombre] = useState(initialValues?.nombre ?? '')
   const [sexo, setSexo] = useState<Sexo>(initialValues?.sexo ?? Sexo.MACHO)
   const [edad, setEdad] = useState(initialValues ? String(initialValues.edad) : '')
@@ -71,7 +68,6 @@ export function MascotaForm({ initialValues, especies, publicadores, onSubmit, s
   const [estado, setEstado] = useState<EstadoMascota>(initialValues?.estado ?? EstadoMascota.DISPONIBLE)
   const [foto, setFoto] = useState(initialValues?.foto ?? '')
   const [especieId, setEspecieId] = useState(initialValues ? String(initialValues.especieId) : '')
-  const [publicadorId, setPublicadorId] = useState(initialValues ? String(initialValues.publicadorId) : '')
 
   const [energia, setEnergia] = useState<Energia>(initialValues?.energia ?? Energia.MEDIA)
   const [caracter, setCaracter] = useState(initialValues?.caracter ?? '')
@@ -88,6 +84,11 @@ export function MascotaForm({ initialValues, especies, publicadores, onSubmit, s
   const [observacionesAdicionales, setObservacionesAdicionales] = useState(
     initialValues?.observacionesAdicionales ?? ''
   )
+    // Solo se puede tocar el estado a mano si la mascota está en uno de los
+  // dos que el publicador controla. Si está EN_PROCESO o ADOPTADA, el
+  // <select> mostraría un valor que no está entre sus opciones.
+  const esEditable =
+    estado === EstadoMascota.DISPONIBLE || estado === EstadoMascota.NO_DISPONIBLE
 
   function handleSubmit(event: FormEvent) {
     event.preventDefault()
@@ -99,7 +100,6 @@ export function MascotaForm({ initialValues, especies, publicadores, onSubmit, s
       estado,
       foto: foto.trim() || undefined,
       especie: Number(especieId),
-      publicador: Number(publicadorId),
       energia,
       caracter: caracter.trim(),
       tamanio,
@@ -128,19 +128,6 @@ export function MascotaForm({ initialValues, especies, publicadores, onSubmit, s
           {especies.map((especie) => (
             <option key={especie.id} value={especie.id}>
               {especie.nombre}
-            </option>
-          ))}
-        </select>
-      </label>
-      <label className="form-field">
-        <span>Publicador</span>
-        <select value={publicadorId} onChange={(event) => setPublicadorId(event.target.value)} required>
-          <option value="" disabled>
-            Seleccioná un publicador
-          </option>
-          {publicadores.map((publicador) => (
-            <option key={publicador.id} value={publicador.id}>
-              {publicador.nombre} {publicador.apellido}
             </option>
           ))}
         </select>
@@ -175,16 +162,25 @@ export function MascotaForm({ initialValues, especies, publicadores, onSubmit, s
           ))}
         </select>
       </label>
-      <label className="form-field">
-        <span>Estado</span>
-        <select value={estado} onChange={(event) => setEstado(event.target.value as EstadoMascota)}>
-          {Object.values(EstadoMascota).map((valor) => (
-            <option key={valor} value={valor}>
-              {ESTADO_LABELS[valor]}
-            </option>
-          ))}
-        </select>
-      </label>
+            {/* El estado no se elige al crear: toda mascota nace DISPONIBLE.
+          Al editar, el publicador solo puede pausar o reactivar la
+          publicación: EN_PROCESO y ADOPTADA los pone el flujo de
+          solicitudes, no el formulario. */}
+      {initialValues && (
+        <label className="form-field">
+          <span>Estado</span>
+          {esEditable ? (
+            <select value={estado} onChange={(event) => setEstado(event.target.value as EstadoMascota)}>
+              <option value={EstadoMascota.DISPONIBLE}>{ESTADO_LABELS.DISPONIBLE}</option>
+              <option value={EstadoMascota.NO_DISPONIBLE}>{ESTADO_LABELS.NO_DISPONIBLE}</option>
+            </select>
+          ) : (
+            <p className="form-hint">
+              {ESTADO_LABELS[estado]} — lo determina el flujo de solicitudes
+            </p>
+          )}
+        </label>
+      )}
       <label className="form-field">
         <span>Foto</span>
         <FotoUpload value={foto} onChange={setFoto} label="foto" />

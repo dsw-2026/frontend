@@ -5,6 +5,9 @@ import { AvatarZoom } from '../../components/ui/AvatarZoom'
 
 interface MascotaTableProps {
   mascotas: Mascota[]
+  // Falso cuando la lista ya está filtrada a las mascotas de un solo
+  // publicador: la columna diría siempre el mismo nombre.
+  mostrarPublicador: boolean
   onDelete: (id: number) => void
 }
 
@@ -22,7 +25,7 @@ const ESTADO_LABELS: Record<EstadoMascota, string> = {
   NO_DISPONIBLE: 'No disponible',
 }
 
-export function MascotaTable({ mascotas, onDelete }: MascotaTableProps) {
+export function MascotaTable({ mascotas, mostrarPublicador, onDelete }: MascotaTableProps) {
   if (mascotas.length === 0) {
     return <p className="empty-state">Todavía no hay mascotas cargadas.</p>
   }
@@ -35,7 +38,7 @@ export function MascotaTable({ mascotas, onDelete }: MascotaTableProps) {
             <th aria-label="Foto" />
             <th>Nombre</th>
             <th>Especie</th>
-            <th>Publicador</th>
+            {mostrarPublicador && <th>Publicador</th>}
             <th>Estado</th>
             <th aria-label="Acciones" />
           </tr>
@@ -48,9 +51,11 @@ export function MascotaTable({ mascotas, onDelete }: MascotaTableProps) {
               </td>
               <td>{mascota.nombre}</td>
               <td>{mascota.especie.nombre}</td>
-              <td>
-                {mascota.publicador.nombre} {mascota.publicador.apellido}
-              </td>
+              {mostrarPublicador && (
+                <td>
+                  {mascota.publicador.nombre} {mascota.publicador.apellido}
+                </td>
+              )}
               <td>
                 <span className={`badge ${ESTADO_BADGE_CLASS[mascota.estado]}`}>
                   {ESTADO_LABELS[mascota.estado]}

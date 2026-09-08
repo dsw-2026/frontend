@@ -4,7 +4,16 @@ import type { Mascota, MascotaInput } from '../models/mascota'
 const BASE_PATH = '/mascotas'
 
 export const mascotaService = {
-  getAll: (estado?: string) => httpClient.get<Mascota[]>(estado ? `${BASE_PATH}?estado=${estado}` : BASE_PATH),
+  // Los filtros son opcionales e independientes: sin ninguno trae todas.
+  // publicador lo usa la pantalla de gestión, donde cada Publicador ve
+  // solo las suyas.
+  getAll: (estado?: string, publicador?: number) => {
+    const params = new URLSearchParams()
+    if (estado) params.set('estado', estado)
+    if (publicador) params.set('publicador', String(publicador))
+    const query = params.toString()
+    return httpClient.get<Mascota[]>(query ? `${BASE_PATH}?${query}` : BASE_PATH)
+  },
   getById: (id: number) => httpClient.get<Mascota>(`${BASE_PATH}/${id}`),
   create: (input: MascotaInput) => httpClient.post<Mascota>(BASE_PATH, input),
   update: (id: number, input: MascotaInput) => httpClient.put<Mascota>(`${BASE_PATH}/${id}`, input),

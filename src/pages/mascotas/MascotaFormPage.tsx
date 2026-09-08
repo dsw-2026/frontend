@@ -2,10 +2,8 @@ import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { mascotaService } from '../../services/mascota.service'
 import { especieService } from '../../services/especie.service'
-import { publicadorService } from '../../services/publicador.service'
 import type { Mascota, MascotaInput } from '../../models/mascota'
 import type { Especie } from '../../models/especie'
-import type { Publicador } from '../../models/publicador'
 import { MascotaForm } from './MascotaForm'
 import { ApiError } from '../../api/httpClient'
 
@@ -16,7 +14,6 @@ export function MascotaFormPage() {
 
   const [mascota, setMascota] = useState<Mascota | null>(null)
   const [especies, setEspecies] = useState<Especie[]>([])
-  const [publicadores, setPublicadores] = useState<Publicador[]>([])
   const [loading, setLoading] = useState(true)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -24,14 +21,11 @@ export function MascotaFormPage() {
   useEffect(() => {
     let cancelado = false
 
-    // Especie y Publicador hacen falta siempre (son los <select>); la
+    // Especie hace falta siempre (es el <select>); la
     // Mascota puntual solo si estamos editando. Las 2 o 3 en paralelo.
     const pedidos: Promise<unknown>[] = [
       especieService.getAll().then((data) => {
         if (!cancelado) setEspecies(data)
-      }),
-      publicadorService.getAll().then((data) => {
-        if (!cancelado) setPublicadores(data)
       }),
     ]
     if (id) {
@@ -80,7 +74,6 @@ export function MascotaFormPage() {
   // la persona a resolver la causa real, en vez de un formulario roto.
   const faltantes: string[] = []
   if (especies.length === 0) faltantes.push('una especie')
-  if (publicadores.length === 0) faltantes.push('un publicador')
 
   return (
     <section>
@@ -107,7 +100,6 @@ export function MascotaFormPage() {
                   estado: mascota.estado,
                   foto: mascota.foto ?? '',
                   especieId: mascota.especie.id,
-                  publicadorId: mascota.publicador.id,
                   energia: mascota.caracteristica.energia,
                   caracter: mascota.caracteristica.caracter,
                   tamanio: mascota.caracteristica.tamanio,
@@ -121,7 +113,6 @@ export function MascotaFormPage() {
               : undefined
           }
           especies={especies}
-          publicadores={publicadores}
           onSubmit={handleSubmit}
           submitting={submitting}
         />
