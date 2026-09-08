@@ -3,8 +3,6 @@ import { Paw } from '../ui/Paw'
 import { useAuth } from '../../api/AuthContext'
 import './Layout.css'
 
-// Un solo Layout para toda la app: define header/nav una vez, y cada
-// página (ver App.tsx) se renderiza adentro vía <Outlet />.
 export function Layout() {
   const { usuario, logout } = useAuth()
   const navigate = useNavigate()
@@ -14,13 +12,18 @@ export function Layout() {
     navigate('/login')
   }
 
+  // Definimos qué links puede ver cada rol. Es la fuente única de verdad
+  // del menú: cambiar acá cambia lo que ve cada tipo de usuario.
+  const tipo = usuario?.tipoUsuario
+
+  const esAdmin = tipo === 'Admin'
+  const esPublicador = tipo === 'Publicador'
+  const esAdoptante = tipo === 'Adoptante'
+
   return (
     <div className="app-shell">
       <header className="app-header">
         <Link to="/" className="app-logo">
-          {/* Reemplaza el emoji 🐾: el emoji lo pinta el sistema operativo
-              con SUS colores (no controlables por CSS) — con Paw usamos
-              los colores reales de la marca. */}
           <span className="app-logo-paws" aria-hidden="true">
             <Paw size={16} toeColor="#8fc5e8" padColor="#2d8fc4" style={{ position: 'relative' }} />
             <Paw size={16} toeColor="#f5c130" padColor="#f5c130" style={{ position: 'relative' }} />
@@ -28,34 +31,49 @@ export function Layout() {
           Fluffy
         </Link>
         <nav className="app-nav">
-          <NavLink to="/adoptar" className={({ isActive }) => (isActive ? 'active' : '')}>
-            Adoptar
-          </NavLink>
-          <NavLink to="/especies" className={({ isActive }) => (isActive ? 'active' : '')}>
-            Especies
-          </NavLink>
-          <NavLink to="/provincias" className={({ isActive }) => (isActive ? 'active' : '')}>
-            Provincias
-          </NavLink>
-          <NavLink to="/localidades" className={({ isActive }) => (isActive ? 'active' : '')}>
-            Localidades
-          </NavLink>
-          <NavLink to="/publicadores" className={({ isActive }) => (isActive ? 'active' : '')}>
-            Publicadores
-          </NavLink>
-          <NavLink to="/adoptantes" className={({ isActive }) => (isActive ? 'active' : '')}>
-            Adoptantes
-          </NavLink>
-          <NavLink to="/mascotas" className={({ isActive }) => (isActive ? 'active' : '')}>
-            Mascotas
-          </NavLink>
-          <NavLink to="/solicitudes" className={({ isActive }) => (isActive ? 'active' : '')}>
-            Solicitudes
-          </NavLink>
+          {/* Adoptar: lo ven Adoptante, Publicador y Admin (todos pueden ver el catálogo). */}
+          {(esAdoptante || esPublicador || esAdmin) && (
+            <NavLink to="/adoptar" className={({ isActive }) => (isActive ? 'active' : '')}>
+              Adoptar
+            </NavLink>
+          )}
+
+          {/* Catálogo administrativo (Especies, Provincias, Localidades): solo Admin. */}
+          {esAdmin && (
+            <>
+              <NavLink to="/especies" className={({ isActive }) => (isActive ? 'active' : '')}>
+                Especies
+              </NavLink>
+              <NavLink to="/provincias" className={({ isActive }) => (isActive ? 'active' : '')}>
+                Provincias
+              </NavLink>
+              <NavLink to="/localidades" className={({ isActive }) => (isActive ? 'active' : '')}>
+                Localidades
+              </NavLink>
+              <NavLink to="/publicadores" className={({ isActive }) => (isActive ? 'active' : '')}>
+                Publicadores
+              </NavLink>
+              <NavLink to="/adoptantes" className={({ isActive }) => (isActive ? 'active' : '')}>
+                Adoptantes
+              </NavLink>
+            </>
+          )}
+
+          {/* Mascotas: Publicador (gestiona las suyas) y Admin. */}
+          {(esPublicador || esAdmin) && (
+            <NavLink to="/mascotas" className={({ isActive }) => (isActive ? 'active' : '')}>
+              Mascotas
+            </NavLink>
+          )}
+
+          {/* Solicitudes: todos los roles (cada uno ve las que le corresponden, filtrado en el backend). */}
+          {(esAdoptante || esPublicador || esAdmin) && (
+            <NavLink to="/solicitudes" className={({ isActive }) => (isActive ? 'active' : '')}>
+              Solicitudes
+            </NavLink>
+          )}
         </nav>
 
-        {/* Sección de sesión: muestra quién está logueado y permite salir.
-            Solo aparece si hay un usuario en el context (usuario !== null). */}
         {usuario && (
           <div className="app-session">
             <span>{usuario.nombreUsuario} ({usuario.tipoUsuario})</span>
