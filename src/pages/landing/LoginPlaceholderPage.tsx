@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import fluffyLogo from '../../assets/fluffy-logo.png'
-import { authService } from '../../services/auth.service'
+import { useAuth } from '../../api/AuthContext'
 import { ApiError } from '../../api/httpClient'
 import './LandingPage.css'
 import './SimplePage.css'
@@ -15,13 +15,14 @@ export function LoginPlaceholderPage() {
 
   // Permite redirigir a otra pantalla por código (después del login exitoso).
   const navigate = useNavigate()
+  const { login } = useAuth()
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault() // evita que el navegador recargue la página al enviar
     setError(null)
     setCargando(true)
     try {
-      await authService.login({ email, contrasena })
+      await login(email, contrasena)
       // Login exitoso: la cookie ya quedó guardada por el navegador.
       // Redirigimos al panel interno (más adelante se puede ajustar el destino).
       navigate('/especies')

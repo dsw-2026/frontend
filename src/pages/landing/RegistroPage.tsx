@@ -2,13 +2,11 @@ import { Link } from 'react-router-dom'
 import fluffyLogo from '../../assets/fluffy-logo.png'
 import './SimplePage.css'
 
-// Reutiliza los formularios de creación de Adoptante/Publicador que ya
-// existen (son, funcionalmente, el alta de cada uno) — no se duplica el
-// formulario. Ver nota en el chat sobre un detalle de navegación
-// pendiente: esos formularios hoy vuelven a la lista interna después de
-// guardar, que no es el lugar correcto para alguien que se está
-// registrando por primera vez (queda para cuando se separen los dos
-// flujos junto con auth).
+// Reutiliza los formularios de creación de Adoptante/Publicador, pero a
+// través de rutas públicas dedicadas (/registro/adoptante y
+// /registro/publicador, ver App.tsx) — así alguien SIN cuenta puede
+// registrarse, sin toparse con la protección de rutas que cubre el panel
+// interno de gestión.
 export function RegistroPage() {
   return (
     <div className="simple-page">
@@ -19,11 +17,11 @@ export function RegistroPage() {
       </div>
 
       <div className="simple-page-registro">
-        <Link to="/adoptantes/nuevo" className="simple-page-card">
+        <Link to="/registro/adoptante" className="simple-page-card">
           <h2>Quiero adoptar</h2>
           <p>Buscá una mascota y enviá solicitudes de adopción.</p>
         </Link>
-        <Link to="/publicadores/nuevo" className="simple-page-card">
+        <Link to="/registro/publicador" className="simple-page-card">
           <h2>Quiero publicar mascotas</h2>
           <p>Soy un refugio, rescatista u hogar de tránsito.</p>
         </Link>
