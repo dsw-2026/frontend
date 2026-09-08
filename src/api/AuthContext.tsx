@@ -7,7 +7,7 @@ import { authService, type UsuarioActual } from '../services/auth.service'
 interface AuthContextType {
   usuario: UsuarioActual | null
   cargando: boolean
-  login: (email: string, contrasena: string) => Promise<void>
+  login: (email: string, contrasena: string) => Promise<UsuarioActual>
   logout: () => Promise<void>
 }
 
@@ -36,6 +36,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     // datos (nombre, rol, etc.), no solo lo que devuelve el login.
     const u = await authService.getPerfil()
     setUsuario(u)
+    return u
   }
 
   async function logout() {

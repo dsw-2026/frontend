@@ -6,6 +6,13 @@ import { ApiError } from '../../api/httpClient'
 import './LandingPage.css'
 import './SimplePage.css'
 
+// A dónde entra cada rol después de loguearse.
+function destinoSegunRol(tipo: string) {
+  if (tipo === 'Admin') return '/publicadores'
+  if (tipo === 'Publicador') return '/mascotas'
+  return '/adoptar'
+}
+
 export function LoginPlaceholderPage() {
   // Un estado por cada campo del formulario, más uno para el error.
   const [email, setEmail] = useState('')
@@ -22,10 +29,10 @@ export function LoginPlaceholderPage() {
     setError(null)
     setCargando(true)
     try {
-      await login(email, contrasena)
+      const usuario = await login(email, contrasena)
       // Login exitoso: la cookie ya quedó guardada por el navegador.
-      // Redirigimos al panel interno (más adelante se puede ajustar el destino).
-      navigate('/especies')
+      // Cada rol entra por la pantalla que le sirve.
+      navigate(destinoSegunRol(usuario.tipoUsuario), { replace: true })
     } catch (err) {
       setError(err instanceof ApiError ? err.message : 'No se pudo iniciar sesión')
     } finally {
