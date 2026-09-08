@@ -24,7 +24,7 @@ export function Layout() {
   return (
     <div className="app-shell">
       <header className="app-header">
-        <Link to="/" className="app-logo">
+        <Link to={esAdmin ? '/publicadores' : esPublicador ? '/mascotas' : '/adoptar'} className="app-logo">
           <span className="app-logo-paws" aria-hidden="true">
             <Paw size={16} toeColor="#8fc5e8" padColor="#2d8fc4" style={{ position: 'relative' }} />
             <Paw size={16} toeColor="#f5c130" padColor="#f5c130" style={{ position: 'relative' }} />
@@ -32,8 +32,9 @@ export function Layout() {
           Fluffy
         </Link>
         <nav className="app-nav">
-          {/* Adoptar: lo ven Adoptante, Publicador y Admin (todos pueden ver el catálogo). */}
-          {(esAdoptante || esPublicador || esAdmin) && (
+          {/* Adoptar: solo Adoptante. Es el catálogo desde el que se pide una
+              adopción, y solo un Adoptante puede crear una solicitud. */}
+          {esAdoptante && (
             <NavLink to="/adoptar" className={({ isActive }) => (isActive ? 'active' : '')}>
               Adoptar
             </NavLink>
