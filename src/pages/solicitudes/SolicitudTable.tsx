@@ -6,6 +6,9 @@ import { totalCompatibilidad } from './compatibilidad'
 
 interface SolicitudTableProps {
   solicitudes: Solicitud[]
+  // La tabla es "tonta": no consulta el rol, lo recibe ya resuelto.
+  puedeResolver: boolean
+  puedeEliminar: boolean
   onAprobar: (id: number) => void
   onRechazar: (id: number) => void
   onDelete: (id: number) => void
@@ -23,7 +26,14 @@ const ESTADO_LABELS: Record<EstadoSolicitud, string> = {
   RECHAZADA: 'Rechazada',
 }
 
-export function SolicitudTable({ solicitudes, onAprobar, onRechazar, onDelete }: SolicitudTableProps) {
+export function SolicitudTable({
+  solicitudes,
+  puedeResolver,
+  puedeEliminar,
+  onAprobar,
+  onRechazar,
+  onDelete,
+}: SolicitudTableProps) {
   if (solicitudes.length === 0) {
     return <p className="empty-state">Todavía no hay solicitudes.</p>
   }
@@ -63,7 +73,7 @@ export function SolicitudTable({ solicitudes, onAprobar, onRechazar, onDelete }:
                 </td>
                 <td className="data-table-actions">
                   <Link to={`/solicitudes/${solicitud.id}`}>Ver detalle</Link>
-                  {solicitud.estado === EstadoSolicitud.PENDIENTE && (
+                  {puedeResolver && solicitud.estado === EstadoSolicitud.PENDIENTE && (
                     <>
                       <Button variant="primary" onClick={() => onAprobar(solicitud.id)}>
                         Aprobar
@@ -73,9 +83,11 @@ export function SolicitudTable({ solicitudes, onAprobar, onRechazar, onDelete }:
                       </Button>
                     </>
                   )}
-                  <Button variant="danger" onClick={() => onDelete(solicitud.id)}>
-                    Eliminar
-                  </Button>
+                  {puedeEliminar && (
+                    <Button variant="danger" onClick={() => onDelete(solicitud.id)}>
+                      Eliminar
+                    </Button>
+                  )}
                 </td>
               </tr>
             )

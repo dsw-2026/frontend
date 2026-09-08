@@ -7,6 +7,7 @@ import { Button } from '../../components/ui/Button'
 import { ApiError } from '../../api/httpClient'
 import { calcularDesglose } from './calcularDesglose'
 import { totalCompatibilidad } from './compatibilidad'
+import { useAuth } from '../../api/AuthContext'
 
 const TOLERANCIA_TEXTO: Record<string, string> = { SI: 'Sí', NO: 'No', DESCONOCIDO: 'Desconocido' }
 const TAMANIO_TEXTO: Record<string, string> = {
@@ -19,6 +20,8 @@ const ENERGIA_TEXTO: Record<string, string> = { BAJA: 'Baja', MEDIA: 'Media', AL
 const TIPO_VIVIENDA_TEXTO: Record<string, string> = { CASA: 'Casa', DEPARTAMENTO: 'Departamento', OTRO: 'Otro' }
 
 export function SolicitudDetallePage() {
+  const { usuario } = useAuth()
+  const esPublicador = usuario?.tipoUsuario === 'Publicador'
   const { id } = useParams()
   const [solicitud, setSolicitud] = useState<Solicitud | null>(null)
   const [loading, setLoading] = useState(true)
@@ -222,7 +225,7 @@ export function SolicitudDetallePage() {
         </>
       )}
 
-      {solicitud.estado === EstadoSolicitud.PENDIENTE && (
+      {esPublicador && solicitud.estado === EstadoSolicitud.PENDIENTE && (
         <div className="detalle-acciones">
           <Button variant="primary" onClick={handleAprobar} disabled={actuando}>
             Aprobar

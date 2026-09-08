@@ -350,6 +350,13 @@ a {
 .data-table-actions {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  white-space: nowrap;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* Los botones dentro de una fila son acciones secundarias: más compactos
+   que los de las pantallas, para que varios entren sin desbordar la tabla. */
+.data-table-actions .btn {
+  padding: 0.35rem 0.75rem;
+  font-size: 0.85rem;
 }

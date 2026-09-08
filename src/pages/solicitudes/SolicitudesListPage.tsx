@@ -4,8 +4,17 @@ import { solicitudService } from '../../services/solicitud.service'
 import type { Solicitud } from '../../models/solicitud'
 import { SolicitudTable } from './SolicitudTable'
 import { ApiError } from '../../api/httpClient'
+import { useAuth } from '../../api/AuthContext'
 
 export function SolicitudesListPage() {
+  const { usuario } = useAuth()
+  // Quién puede hacer qué, según lo que valida el backend:
+  // - crear solicitudes: solo Adoptante
+  // - aprobar/rechazar: solo el Publicador dueño de la mascota
+  // - eliminar: Adoptante y Publicador (el Admin es de solo lectura acá)
+  const esAdoptante = usuario?.tipoUsuario === 'Adoptante'
+  const esPublicador = usuario?.tipoUsuario === 'Publicador'
+  const esAdmin = usuario?.tipoUsuario === 'Admin'
   const [solicitudes, setSolicitudes] = useState<Solicitud[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -68,9 +77,11 @@ export function SolicitudesListPage() {
     <section>
       <div className="page-header">
         <h1>Solicitudes</h1>
-        <Link to="/solicitudes/nueva" className="btn btn-primary">
-          + Nueva solicitud
-        </Link>
+        {esAdoptante && (
+          <Link to="/solicitudes/nueva" className="btn btn-primary">
+            + Nueva solicitud
+          </Link>
+        )}
       </div>
 
       {loading && <p>Cargando…</p>}
@@ -78,6 +89,8 @@ export function SolicitudesListPage() {
       {!loading && !error && (
         <SolicitudTable
           solicitudes={solicitudes}
+          puedeResolver={esPublicador}
+          puedeEliminar={!esAdmin}
           onAprobar={handleAprobar}
           onRechazar={handleRechazar}
           onDelete={handleDelete}
