@@ -87,10 +87,7 @@ export function LandingPage() {
             <span className="landing-footer-slogan">— Conectá. Rescatá. Adoptá.</span>
           </div>
         </div>
-
-        <Link to="/especies" className="landing-internal-link">
-          → Acceder al panel interno (temporal, hasta que exista login)
-        </Link>
+        
       </footer>
     </div>
   )
