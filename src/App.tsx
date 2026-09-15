@@ -54,10 +54,8 @@ function App() {
             <Route path="localidades/nueva" element={<LocalidadFormPage />} />
             <Route path="localidades/:id/editar" element={<LocalidadFormPage />} />
             <Route path="publicadores" element={<PublicadoresListPage />} />
-            <Route path="publicadores/nuevo" element={<PublicadorFormPage />} />
             <Route path="publicadores/:id/editar" element={<PublicadorFormPage />} />
             <Route path="adoptantes" element={<AdoptantesListPage />} />
-            <Route path="adoptantes/nuevo" element={<AdoptanteFormPage />} />
             <Route path="adoptantes/:id/editar" element={<AdoptanteFormPage />} />
             <Route path="mascotas" element={<MascotasListPage />} />
             <Route path="mascotas/nueva" element={<MascotaFormPage />} />

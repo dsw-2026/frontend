@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
 import { publicadorService } from '../../services/publicador.service'
 import type { Publicador } from '../../models/publicador'
 import { PublicadorTable } from './PublicadorTable'
@@ -46,9 +45,7 @@ export function PublicadoresListPage() {
     <section>
       <div className="page-header">
         <h1>Publicadores</h1>
-        <Link to="/publicadores/nuevo" className="btn btn-primary">
-          + Nuevo publicador
-        </Link>
+        
       </div>
 
       {loading && <p>Cargando…</p>}
