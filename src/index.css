@@ -156,7 +156,7 @@ a {
 
 /* Campo puntual con error (ej: nombre de usuario ya en uso).
    Se aplica agregando "input-error" a la className del input, select o
-   textarea correspondiente — ver fieldErrors en PublicadorForm. */
+   textarea correspondiente — ver fieldErrors en PublisherForm. */
 .form-field input.input-error,
 .form-field select.input-error,
 .form-field textarea.input-error {
@@ -242,7 +242,7 @@ a {
   white-space: nowrap;
 }
 
-.compat-si {
+.compat-yes {
   color: var(--color-primary);
 }
 
@@ -250,18 +250,18 @@ a {
   color: var(--color-danger);
 }
 
-.compat-neutro {
+.compat-neutral {
   color: var(--color-text-muted);
   font-weight: 400;
 }
 
-.detalle-acciones {
+.details-actions {
   display: flex;
   gap: 1rem;
   margin-top: 1.5rem;
 }
 
-.mascota-fija-card {
+.fixed-pet-card {
   display: flex;
   align-items: center;
   gap: 0.85rem;
@@ -270,7 +270,7 @@ a {
   padding: 0.75rem 1rem;
 }
 
-.mascota-fija-card img {
+.fixed-pet-card img {
   width: 56px;
   height: 56px;
   border-radius: var(--radius-md);
@@ -278,7 +278,7 @@ a {
   flex-shrink: 0;
 }
 
-.mascota-fija-cambiar {
+.fixed-pet-change {
   display: block;
   font-size: 0.82rem;
   margin-top: 0.15rem;

@@ -1,70 +1,75 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { Layout } from './components/layout/Layout'
-import { RutaProtegida } from './components/RutaProtegida'
-import { LandingPage } from './pages/landing/LandingPage'
-import { LoginPlaceholderPage } from './pages/landing/LoginPlaceholderPage'
-import { RegistroPage } from './pages/landing/RegistroPage'
-import { EspeciesListPage } from './pages/especies/EspeciesListPage'
-import { EspecieFormPage } from './pages/especies/EspecieFormPage'
-import { ProvinciasListPage } from './pages/provincias/ProvinciasListPage'
-import { ProvinciaFormPage } from './pages/provincias/ProvinciaFormPage'
-import { LocalidadesListPage } from './pages/localidades/LocalidadesListPage'
-import { LocalidadFormPage } from './pages/localidades/LocalidadFormPage'
-import { PublicadoresListPage } from './pages/publicadores/PublicadoresListPage'
-import { PublicadorFormPage } from './pages/publicadores/PublicadorFormPage'
-import { AdoptantesListPage } from './pages/adoptantes/AdoptantesListPage'
-import { AdoptanteFormPage } from './pages/adoptantes/AdoptanteFormPage'
-import { MascotasListPage } from './pages/mascotas/MascotasListPage'
-import { MascotaFormPage } from './pages/mascotas/MascotaFormPage'
-import { SolicitudesListPage } from './pages/solicitudes/SolicitudesListPage'
-import { SolicitudFormPage } from './pages/solicitudes/SolicitudFormPage'
-import { SolicitudDetallePage } from './pages/solicitudes/SolicitudDetallePage'
-import { AdoptarPage } from './pages/adoptar/AdoptarPage'
-import { LayoutPublico } from './components/layout/LayoutPublico'
 
-// "/" y sus vecinas (login, registro) son públicas, SIN el <Layout> de
-// gestión (sin el nav interno) — son la puerta de entrada, antes de
-// loguearse. Las rutas /registro/adoptante y /registro/publicador también
-// son públicas: reutilizan los formularios de alta, pero fuera de la
-// protección, para que alguien SIN cuenta pueda registrarse.
-// Todo lo demás vive detrás de RutaProtegida (requiere sesión) y dentro
-// de <Layout />.
+import { Layout } from './components/shared/layout/layout/Layout'
+import { PublicLayout } from './components/shared/layout/publicLayout/PublicLayout'
+import { ProtectedRoute } from './components/auth/protected/ProtectedRoute'
+import { Login } from './components/auth/login/Login'
+import { Register } from './components/auth/register/Register'
+import { Landing } from './components/landing/Landing'
+
+import { SpeciesList } from './components/biz/species/speciesList/SpeciesList'
+import { SpeciesForm } from './components/biz/species/speciesForm/SpeciesForm'
+import { ProvinceList } from './components/biz/province/provinceList/ProvinceList'
+import { ProvinceForm } from './components/biz/province/provinceForm/ProvinceForm'
+import { LocalityList } from './components/biz/locality/localityList/LocalityList'
+import { LocalityForm } from './components/biz/locality/localityForm/LocalityForm'
+import { PublisherList } from './components/biz/publisher/publisherList/PublisherList'
+import { PublisherForm } from './components/biz/publisher/publisherForm/PublisherForm'
+import { AdopterList } from './components/biz/adopter/adopterList/AdopterList'
+import { AdopterForm } from './components/biz/adopter/adopterForm/AdopterForm'
+import { PetList } from './components/biz/pet/petList/PetList'
+import { PetForm } from './components/biz/pet/petForm/PetForm'
+import { AdoptionView } from './components/biz/adoption/adoptionView/AdoptionView'
+import { ApplicationList } from './components/biz/application/applicationList/ApplicationList'
+import { ApplicationForm } from './components/biz/application/applicationForm/ApplicationForm'
+import { ApplicationDetails } from './components/biz/application/applicationDetails/ApplicationDetails'
+// import { PageNotFound } from './components/pageNotFound/PageNotFound'
+
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/login" element={<LoginPlaceholderPage />} />
-        <Route path="/registro" element={<RegistroPage />} />
-        <Route element={<LayoutPublico />}>
-          <Route path="/registro/adoptante" element={<AdoptanteFormPage modoRegistro />} />
-          <Route path="/registro/publicador" element={<PublicadorFormPage modoRegistro />} />
+        <Route path="/" element={<Landing />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route element={<PublicLayout />}>
+          <Route path="/register/adopter" element={<AdopterForm registrationMode />} />
+          <Route path="/register/publisher" element={<PublisherForm registrationMode />} />
         </Route>
 
-        <Route element={<RutaProtegida />}>
+        <Route element={<ProtectedRoute />}>
           <Route element={<Layout />}>
-            <Route path="adoptar" element={<AdoptarPage />} />
-            <Route path="especies" element={<EspeciesListPage />} />
-            <Route path="especies/nueva" element={<EspecieFormPage />} />
-            <Route path="especies/:id/editar" element={<EspecieFormPage />} />
-            <Route path="provincias" element={<ProvinciasListPage />} />
-            <Route path="provincias/nueva" element={<ProvinciaFormPage />} />
-            <Route path="provincias/:id/editar" element={<ProvinciaFormPage />} />
-            <Route path="localidades" element={<LocalidadesListPage />} />
-            <Route path="localidades/nueva" element={<LocalidadFormPage />} />
-            <Route path="localidades/:id/editar" element={<LocalidadFormPage />} />
-            <Route path="publicadores" element={<PublicadoresListPage />} />
-            <Route path="publicadores/:id/editar" element={<PublicadorFormPage />} />
-            <Route path="adoptantes" element={<AdoptantesListPage />} />
-            <Route path="adoptantes/:id/editar" element={<AdoptanteFormPage />} />
-            <Route path="mascotas" element={<MascotasListPage />} />
-            <Route path="mascotas/nueva" element={<MascotaFormPage />} />
-            <Route path="mascotas/:id/editar" element={<MascotaFormPage />} />
-            <Route path="solicitudes" element={<SolicitudesListPage />} />
-            <Route path="solicitudes/nueva" element={<SolicitudFormPage />} />
-            <Route path="solicitudes/:id" element={<SolicitudDetallePage />} />
+            <Route path="adopt" element={<AdoptionView />} />
+
+            <Route path="species" element={<SpeciesList />} />
+            <Route path="species/new" element={<SpeciesForm />} />
+            <Route path="species/:id/edit" element={<SpeciesForm />} />
+
+            <Route path="provinces" element={<ProvinceList />} />
+            <Route path="provinces/new" element={<ProvinceForm />} />
+            <Route path="provinces/:id/edit" element={<ProvinceForm />} />
+
+            <Route path="localities" element={<LocalityList />} />
+            <Route path="localities/new" element={<LocalityForm />} />
+            <Route path="localities/:id/edit" element={<LocalityForm />} />
+
+            <Route path="publishers" element={<PublisherList />} />
+            <Route path="publishers/:id/edit" element={<PublisherForm />} />
+
+            <Route path="adopters" element={<AdopterList />} />
+            <Route path="adopters/:id/edit" element={<AdopterForm />} />
+
+            <Route path="pets" element={<PetList />} />
+            <Route path="pets/new" element={<PetForm />} />
+            <Route path="pets/:id/edit" element={<PetForm />} />
+
+            <Route path="applications" element={<ApplicationList />} />
+            <Route path="applications/new" element={<ApplicationForm />} />
+            <Route path="applications/:id" element={<ApplicationDetails />} />
           </Route>
         </Route>
+
+        {/* <Route path="*" element={<PageNotFound />} /> */}
       </Routes>
     </BrowserRouter>
   )

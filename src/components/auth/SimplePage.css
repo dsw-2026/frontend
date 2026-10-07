@@ -1,0 +1,47 @@
+.simple-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 3rem 1.5rem;
+  background: var(--color-bg);
+  font-family: 'Source Sans 3', system-ui, sans-serif;
+}
+
+.simple-page-content {
+  max-width: 560px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.simple-page-logo {
+  width: 96px;
+  height: auto;
+  margin-bottom: 0.5rem;
+  mix-blend-mode: multiply;
+}
+
+.simple-page-content h1 {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
+  font-size: 1.6rem;
+  color: var(--color-text);
+  margin: 0.25rem 0 0;
+}
+
+.simple-page-description {
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  margin: 0.5rem 0 1.25rem;
+}
+
+.simple-page-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}

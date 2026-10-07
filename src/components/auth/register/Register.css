@@ -1,0 +1,42 @@
+.simple-page-register {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+  max-width: 640px;
+  width: 100%;
+  margin: 1.5rem 0;
+}
+
+@media (min-width: 560px) {
+  .simple-page-register {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.simple-page-card {
+  display: block;
+  background: var(--color-surface);
+  border: 1px solid #e6e3db;
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  text-decoration: none;
+  color: var(--color-text);
+  transition: border-color 0.15s ease;
+}
+
+.simple-page-card:hover {
+  border-color: var(--color-primary);
+}
+
+.simple-page-card h2 {
+  margin: 0 0 0.4rem;
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.05rem;
+  color: var(--color-primary);
+}
+
+.simple-page-card p {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
