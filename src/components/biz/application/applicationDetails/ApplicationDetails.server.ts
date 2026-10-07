@@ -1,4 +1,3 @@
-
 import { applicationService } from '../../../../services/application.service'
 
 export function loadApplication(id: number) {

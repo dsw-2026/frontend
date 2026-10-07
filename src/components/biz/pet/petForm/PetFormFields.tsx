@@ -33,8 +33,6 @@ export function PetFormFields({ initialValues, speciesList, onSubmit, submitting
   const [sex, setSex] = useState<Sex>(initialValues?.sex ?? Sex.MALE)
   const [age, setAge] = useState(initialValues ? String(initialValues.age) : '')
   const [ageUnit, setAgeUnit] = useState<AgeUnit>(initialValues?.ageUnit ?? AgeUnit.YEARS)
-  // Al crear, arranca en AVAILABLE por defecto — es el estado con el que
-  // nace toda mascota nueva en el flujo normal.
   const [status, setStatus] = useState<PetStatus>(initialValues?.status ?? PetStatus.AVAILABLE)
   const [photo, setPhoto] = useState(initialValues?.photo ?? '')
   const [speciesId, setSpeciesId] = useState(initialValues ? String(initialValues.speciesId) : '')

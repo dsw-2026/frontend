@@ -8,9 +8,6 @@ import { publisherToFormValues } from './PublisherForm.data'
 import { loadPublisherFormData, savePublisher } from './PublisherForm.server'
 
 interface PublisherFormProps {
-  // true cuando la pantalla se usa como registro público (/registro/publicador).
-  // Cambia el título, el link de vuelta y a dónde va después de guardar:
-  // quien se está registrando no tiene por qué terminar en el panel de gestión.
   registrationMode?: boolean
 }
 
@@ -57,9 +54,6 @@ export function PublisherForm({ registrationMode = false }: PublisherFormProps) 
       await savePublisher(id ? Number(id) : undefined, values)
       navigate(registrationMode ? '/login' : '/publishers')
     } catch (err) {
-      // Un 409 de conflicto de unicidad trae el campo que chocó: en ese caso
-      // se marca el campo puntual en el formulario en vez de mostrar el
-      // banner genérico de arriba.
       if (err instanceof ApiError && err.field) {
         setFieldErrors({ [err.field]: err.message })
       } else {

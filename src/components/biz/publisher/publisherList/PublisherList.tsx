@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react'
 import type { Publisher } from '../../../../models/publisher'
 import { ApiError } from '../../../../api/httpClient'

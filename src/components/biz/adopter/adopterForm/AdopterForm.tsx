@@ -8,9 +8,6 @@ import { adopterToFormValues } from './AdopterForm.data'
 import { loadAdopterFormData, saveAdopter } from './AdopterForm.server'
 
 interface AdopterFormProps {
-  // true cuando la pantalla se usa como registro público (/register/adopter).
-  // Cambia el título, el link de vuelta y a dónde va después de guardar:
-  // quien se está registrando no tiene por qué terminar en el panel de gestión.
   registrationMode?: boolean
 }
 
@@ -55,8 +52,6 @@ export function AdopterForm({ registrationMode = false }: AdopterFormProps) {
     setFieldErrors({})
     try {
       await saveAdopter(id ? Number(id) : undefined, values)
-      // Registrarse no deja sesión iniciada (el alta no devuelve token),
-      // así que el paso siguiente es loguearse con la cuenta recién creada.
       navigate(registrationMode ? '/login' : '/adopters')
     } catch (err) {
       if (err instanceof ApiError && err.field) {

@@ -1,4 +1,3 @@
-// ApplicationDetails.tsx
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { ApplicationStatus, type Application } from '../../../../models/application.ts'

@@ -1,4 +1,3 @@
-
 import { Link } from 'react-router-dom'
 import type { Species } from '../../../../models/species'
 import { Button } from '../../../shared/ui/button/Button'

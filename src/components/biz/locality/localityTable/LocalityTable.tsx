@@ -28,7 +28,6 @@ export function LocalityTable({ localities, onDelete }: LocalityTableProps) {
             <tr key={locality.id}>
               <td>{locality.name}</td>
               <td>{locality.postalCode}</td>
-              {/* province name comes from the server, so it is always available */}
               <td>{locality.province.name}</td>
               <td className="data-table-actions">
                 <Link to={`/localidades/${locality.id}/editar`}>Editar</Link>

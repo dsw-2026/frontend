@@ -1,4 +1,3 @@
-// ApplicationFormFields.tsx
 import { useState, type FormEvent } from 'react'
 import { Link } from 'react-router-dom'
 import { Button } from '../../../shared/ui/button/Button'

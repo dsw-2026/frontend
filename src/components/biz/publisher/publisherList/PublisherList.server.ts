@@ -1,4 +1,3 @@
-
 import { publisherService } from '../../../../services/publisher.service'
 
 export function loadAllPublishers() {

@@ -1,4 +1,3 @@
-
 import { localityService } from '../../../../services/locality.service'
 
 export function loadAllLocalities() {

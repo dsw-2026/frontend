@@ -23,8 +23,6 @@ export function Login() {
     setLoading(true)
     try {
       const user = await login(email, password)
-      // Login exitoso: la cookie ya quedó guardada por el navegador.
-      // Cada rol entra por la pantalla que le sirve.
       navigate(getDestinationByRole(user.userType), { replace: true })
     } catch (err) {
       setError(err instanceof ApiError ? err.message : 'No se pudo iniciar sesión')

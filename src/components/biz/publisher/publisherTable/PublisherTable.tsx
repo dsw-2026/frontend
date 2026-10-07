@@ -1,4 +1,3 @@
-// components/biz/publisher/publisherTable/PublisherTable.tsx
 import { Link } from 'react-router-dom'
 import type { Publisher } from '../../../../models/publisher'
 import { Button } from '../../../shared/ui/button/Button'

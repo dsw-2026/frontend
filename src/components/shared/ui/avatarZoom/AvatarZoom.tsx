@@ -1,4 +1,3 @@
-// components/shared/ui/avatarZoom/AvatarZoom.tsx
 import { useEffect, useState } from 'react'
 import { API_ORIGIN } from '../../../../api/httpClient'
 import './AvatarZoom.css'

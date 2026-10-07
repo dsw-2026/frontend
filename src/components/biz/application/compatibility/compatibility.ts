@@ -9,12 +9,6 @@ export interface CompatibilityFactor {
   compatible: boolean
 }
 
-// Compara, campo por campo, las preferencias que declaró el Adopter en
-// ESTA solicitud contra la Characteristic real de la Pet. Regla simple, a
-// propósito (decisión del equipo): coincide = 1 punto, no coincide = 0.
-// Nada de esto se persiste — se recalcula cada vez que se abre la pantalla,
-// con los datos actuales de la Pet (los atributos del Adopter NO entran en
-// esta comparación).
 export function calculateBreakdown(application: Application): CompatibilityFactor[] {
   const { characteristic } = application.pet
 
@@ -57,9 +51,6 @@ export function calculateBreakdown(application: Application): CompatibilityFacto
   ]
 }
 
-// Suma los puntos del desglose (1 por cada campo que coincide) y calcula el
-// porcentaje equivalente. No hace falta normalizar: el puntaje ya va de 0 a
-// la cantidad total de factores.
 export function totalCompatibility(breakdown: CompatibilityFactor[]): {
   points: number
   total: number

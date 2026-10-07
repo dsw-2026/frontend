@@ -4,9 +4,6 @@ import { useScrollReveal } from '../../shared/hooks/useScrollReveal'
 import fluffyLogo from '../../assets/fluffy-logo.png'
 import './Landing.css'
 
-// Página pública: fuera del <Layout> de la app interna (sin el nav de
-// gestión) — es lo primero que ve cualquiera al entrar a la URL de
-// Fluffy, sin necesidad de estar logueado.
 export function Landing() {
   const descriptionRef = useScrollReveal<HTMLDivElement>()
   const contactRef = useScrollReveal<HTMLDivElement>()
@@ -14,10 +11,8 @@ export function Landing() {
   return (
     <div className="landing-page">
       <section className="landing-hero">
-        {/* Resplandor de fondo, decorativo, sin contenido semántico */}
         <div className="landing-glow" aria-hidden="true" />
 
-        {/* Patitas flotantes decorativas — puramente visuales */}
         <div className="landing-paws" aria-hidden="true">
           <Paw size={44} toeColor="#8fc5e8" opacity={0.5} rotation={-18} style={{ left: '6%', top: '18%', animation: 'fl-float 8s ease-in-out infinite' }} />
           <Paw size={34} toeColor="#f5c130" opacity={0.55} rotation={16} style={{ right: '8%', top: '26%', animation: 'fl-float 7.4s ease-in-out infinite', animationDelay: '-2.2s' }} />

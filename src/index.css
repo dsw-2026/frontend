@@ -1,19 +1,19 @@
-/* ===== Tokens de diseño (paleta Fluffy: blanco, celeste, amarillo) ===== */
+/* ===== Design tokens (Fluffy palette: white, light blue, yellow) ===== */
 :root {
   --color-bg: #ffffff;
   --color-surface: #ffffff;
   --color-text: #1c3a4b;
   --color-text-muted: #5b7c8d;
 
-  /* Celeste: versión oscura para texto/botones (contraste con blanco),
-     versión clara para fondos suaves y bordes, tal como aparece en el logo. */
+  /* Light blue: dark version for text/buttons (contrast against white),
+     light version for soft backgrounds and borders, as it appears in the logo. */
   --color-primary: #2d8fc4;
   --color-primary-light: #8fc5e8;
   --color-primary-soft: #e8f4fb;
   --color-on-primary: #ffffff;
 
-  /* Amarillo: acento puntual (subrayados, foco, detalles), no para
-     superficies grandes — así no compite visualmente con el celeste. */
+  /* Yellow: occasional accent (underlines, focus, details), not for
+     large surfaces, so it doesn't visually compete with the light blue. */
   --color-accent: #f5c130;
   --color-accent-soft: #fdf3d9;
 
@@ -24,7 +24,7 @@
   --radius-lg: 12px;
 }
 
-/* ===== Reset básico ===== */
+/* ===== Basic reset ===== */
 * {
   box-sizing: border-box;
 }
@@ -58,7 +58,7 @@ a {
   color: var(--color-primary);
 }
 
-/* ===== Layout de página compartido ===== */
+/* ===== Shared page layout ===== */
 .page-header {
   display: flex;
   flex-direction: column;
@@ -87,7 +87,7 @@ a {
   margin-bottom: 1rem;
 }
 
-/* ===== Formularios ===== */
+/* ===== Forms ===== */
 .form {
   display: flex;
   flex-direction: column;
@@ -99,7 +99,7 @@ a {
   max-width: 560px;
 }
 
-/* Aclaración dentro de un formulario: informativa, no es un campo. */
+/* Note inside a form: informational, not a field. */
 .form-hint {
   margin: 0;
   font-size: 0.9rem;
@@ -154,9 +154,9 @@ a {
   outline-offset: 1px;
 }
 
-/* Campo puntual con error (ej: nombre de usuario ya en uso).
-   Se aplica agregando "input-error" a la className del input, select o
-   textarea correspondiente — ver fieldErrors en PublisherForm. */
+/* Individual field with an error (e.g. username already taken).
+   Applied by adding "input-error" to the className of the corresponding
+   input, select or textarea — see fieldErrors in PublisherForm. */
 .form-field input.input-error,
 .form-field select.input-error,
 .form-field textarea.input-error {
@@ -195,7 +195,7 @@ a {
   color: var(--color-text-muted);
 }
 
-/* ===== Comparación (detalle de Solicitud) ===== */
+/* ===== Comparison (Application details) ===== */
 .comparison-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -284,7 +284,7 @@ a {
   margin-top: 0.15rem;
 }
 
-/* ===== Badges (ej: estado de verificación) ===== */
+/* ===== Badges (e.g. verification status) ===== */
 .badge {
   display: inline-block;
   padding: 0.2rem 0.6rem;
@@ -303,7 +303,12 @@ a {
   color: #8a6a10;
 }
 
-/* ===== Acción tipo link dentro de una tabla (ej: "Verificar") ===== */
+.badge-danger {
+  background: var(--color-danger-soft);
+  color: var(--color-danger);
+}
+
+/* ===== Link-style action inside a table (e.g. "Verify") ===== */
 .link-action {
   background: none;
   border: none;
@@ -315,7 +320,7 @@ a {
   text-decoration: underline;
 }
 
-/* ===== Tablas ===== */
+/* ===== Tables ===== */
 .table-wrapper {
   overflow-x: auto;
   background: var(--color-surface);
@@ -354,8 +359,8 @@ a {
   gap: 0.5rem;
 }
 
-/* Los botones dentro de una fila son acciones secundarias: más compactos
-   que los de las pantallas, para que varios entren sin desbordar la tabla. */
+/* Buttons inside a row are secondary actions: more compact than the
+   ones on the pages, so several fit without overflowing the table. */
 .data-table-actions .btn {
   padding: 0.35rem 0.75rem;
   font-size: 0.85rem;

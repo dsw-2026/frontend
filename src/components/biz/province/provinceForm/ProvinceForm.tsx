@@ -1,4 +1,3 @@
-// components/biz/province/provinceForm/ProvinceForm.tsx
 import { useEffect, useState, type FormEvent } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { Button } from '../../../shared/ui/button/Button'

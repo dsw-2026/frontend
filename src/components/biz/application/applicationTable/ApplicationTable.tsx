@@ -1,4 +1,3 @@
-// ApplicationTable.tsx
 import { Link } from 'react-router-dom'
 import { ApplicationStatus, type Application } from '../../../../models/application'
 import { Button } from '../../../shared/ui/button/Button'
@@ -7,7 +6,6 @@ import { STATUS_BADGE_CLASS, STATUS_LABELS } from './ApplicationTable.data'
 
 interface ApplicationTableProps {
   applications: Application[]
-  // La tabla es "tonta": no consulta el rol, lo recibe ya resuelto.
   canResolve: boolean
   canDelete: boolean
   onApprove: (id: number) => void
@@ -41,8 +39,6 @@ export function ApplicationTable({
         </thead>
         <tbody>
           {applications.map((application) => {
-            // No hay ningún puntaje guardado: se recalcula acá mismo, por
-            // cada fila, comparando los datos actuales.
             const { points, total, percentage } = totalCompatibility(calculateBreakdown(application))
             return (
               <tr key={application.id}>

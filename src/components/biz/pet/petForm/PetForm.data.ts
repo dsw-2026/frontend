@@ -19,9 +19,6 @@ export interface PetFormValues {
   additionalNotes: string
 }
 
-// Un registro por valor de enum, mostrado en español en los <select>. El
-// backend guarda el valor en mayúsculas (ej: "SMALL"); esto es solo la
-// etiqueta visual.
 export const SEX_LABELS: Record<Sex, string> = { MALE: 'Macho', FEMALE: 'Hembra' }
 
 export const AGE_UNIT_LABELS: Record<AgeUnit, string> = { MONTHS: 'Meses', YEARS: 'Años' }

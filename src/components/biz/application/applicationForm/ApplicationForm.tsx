@@ -8,8 +8,6 @@ import { loadApplicationFormData, createApplication } from './ApplicationForm.se
 
 export function ApplicationForm() {
   const navigate = useNavigate()
-  // ?pet=<id> llega desde /adopt → "Solicitar adopción": significa que la
-  // mascota ya está elegida, no hace falta el <select> completo.
   const [searchParams] = useSearchParams()
   const petIdParam = searchParams.get('pet')
 

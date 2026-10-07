@@ -11,8 +11,6 @@ interface AdopterFormFieldsProps {
   isEdit: boolean
   onSubmit: (values: AdopterInput) => void
   submitting: boolean
-  // Si el backend devolvió un 409 de unicidad, acá llega qué campo fue
-  // ("username" o "email") para marcarlo en rojo puntualmente.
   fieldErrors?: Record<string, string>
 }
 
@@ -137,7 +135,7 @@ export function AdopterFormFields({
           <input type="checkbox" checked={verified} onChange={(event) => setVerified(event.target.checked)} />
           <span>
             Verificado
-            <small> — temporal: cualquiera puede tocar esto hasta que exista control por rol</small>
+            <small> - temporal: cualquiera puede tocar esto hasta que exista control por rol</small>
           </span>
         </label>
       )}

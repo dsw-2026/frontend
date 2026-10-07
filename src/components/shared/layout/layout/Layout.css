@@ -43,7 +43,7 @@
   border-bottom: 2px solid transparent;
 }
 
-/* Bloque de sesión del header: nombre de usuario + botón de salir. */
+/* Header session block: username + logout button. */
 .app-session {
   display: flex;
   align-items: center;
@@ -53,8 +53,8 @@
   color: var(--color-text-muted);
 }
 
-/* El botón de salir es una acción secundaria del header: más chico que
-   los botones de las pantallas, para que no compita con el contenido. */
+/* The logout button is a secondary header action: smaller than the
+   buttons on the pages, so it doesn't compete with the content. */
 .app-session .btn {
   padding: 0.4rem 0.9rem;
   font-size: 0.85rem;
@@ -74,7 +74,7 @@
   padding: 1.5rem 1.25rem 3rem;
 }
 
-/* A partir de pantallas tipo tablet, header en una sola fila */
+/* From tablet-sized screens up, header in a single row */
 @media (min-width: 640px) {
   .app-header {
     flex-direction: row;

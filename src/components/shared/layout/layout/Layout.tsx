@@ -13,8 +13,6 @@ export function Layout() {
     navigate('/login')
   }
 
-  // Definimos qué links puede ver cada rol. Es la fuente única de verdad
-  // del menú: cambiar acá cambia lo que ve cada tipo de usuario.
   const userType = user?.userType
 
   const isAdmin = userType === 'Admin'
@@ -32,16 +30,13 @@ export function Layout() {
           Fluffy
         </Link>
         <nav className="app-nav">
-          {/* Adoptar: solo Adopter. Es el catálogo desde el que se pide una
-              adopción, y solo un Adopter puede crear una solicitud. */}
+
           {isAdopter && (
             <NavLink to="/adopt" className={({ isActive }) => (isActive ? 'active' : '')}>
               Adoptar
             </NavLink>
           )}
 
-          {/* Catálogo administrativo (Especies, Provincias, Localidades), más
-              Publicadores y Adoptantes: solo Admin. */}
           {isAdmin && (
             <>
               <NavLink to="/species" className={({ isActive }) => (isActive ? 'active' : '')}>
@@ -62,15 +57,12 @@ export function Layout() {
             </>
           )}
 
-          {/* Mascotas: Publisher (gestiona las suyas) y Admin. */}
           {(isPublisher || isAdmin) && (
             <NavLink to="/pets" className={({ isActive }) => (isActive ? 'active' : '')}>
               Mascotas
             </NavLink>
           )}
 
-          {/* Solicitudes: todos los roles (cada uno ve las que le corresponden,
-              filtrado en el backend). */}
           {(isAdopter || isPublisher || isAdmin) && (
             <NavLink to="/applications" className={({ isActive }) => (isActive ? 'active' : '')}>
               Solicitudes

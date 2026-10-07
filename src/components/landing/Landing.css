@@ -5,7 +5,7 @@
   overflow-x: hidden;
 }
 
-/* ===== Animaciones ===== */
+/* ===== Animations ===== */
 @keyframes fl-rise {
   from {
     opacity: 0;
@@ -174,7 +174,7 @@
   border-color: var(--color-primary);
 }
 
-/* ===== Banda de descripción ===== */
+/* ===== Description Band ===== */
 .landing-description-band {
   position: relative;
   background: #f3f9fd;
@@ -209,7 +209,7 @@
   text-wrap: pretty;
 }
 
-/* ===== Footer / contacto ===== */
+/* ===== Footer / contact ===== */
 .landing-footer {
   padding: clamp(56px, 10vw, 96px) 24px clamp(40px, 8vw, 72px);
   display: flex;
@@ -302,7 +302,7 @@
   color: var(--color-text-muted);
 }
 
-/* ===== Scroll reveal (ver useScrollReveal.ts) ===== */
+/* ===== Scroll reveal (useScrollReveal.ts) ===== */
 .landing-reveal {
   opacity: 0;
   transform: translateY(28px);
