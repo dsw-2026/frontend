@@ -54,3 +54,47 @@
 .pet-card .btn {
   align-self: flex-start;
 }
+
+.pet-card-body h3 a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.pet-card-body h3 a:hover {
+  color: var(--color-primary);
+}
+
+.pet-card-tags {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.pet-card-tags li {
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  border-radius: 999px;
+  padding: 0.15rem 0.55rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.pet-card-tags li.pet-tag-muted {
+  background: var(--color-accent-soft);
+  color: #8a6a10;
+}
+
+.pet-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.pet-card-photo-link {
+  display: block;
+  text-decoration: none;
+}

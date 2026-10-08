@@ -1,0 +1,63 @@
+.pet-detail {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .pet-detail {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+}
+
+.pet-detail-photo {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: var(--radius-lg);
+  display: block;
+}
+
+.pet-detail-photo-placeholder {
+  background: var(--color-primary-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 4rem;
+}
+
+.pet-detail-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.pet-detail-temperament {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.pet-detail-facts {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.4rem 1rem;
+  margin: 0;
+  width: 100%;
+}
+
+.pet-detail-facts dt {
+  color: var(--color-text-muted);
+}
+
+.pet-detail-facts dd {
+  margin: 0;
+  font-weight: 500;
+}
+
+.pet-detail-subtitle {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--color-text-muted);
+}

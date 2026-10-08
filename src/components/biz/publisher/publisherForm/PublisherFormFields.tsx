@@ -147,7 +147,6 @@ export function PublisherFormFields({
           <input type="checkbox" checked={verified} onChange={(event) => setVerified(event.target.checked)} />
           <span>
             Verificado
-            <small> — temporal: cualquiera puede tocar esto hasta que exista control por rol</small>
           </span>
         </label>
       )}

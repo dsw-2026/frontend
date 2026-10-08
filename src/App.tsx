@@ -23,6 +23,7 @@ import { AdoptionView } from './components/biz/adoption/adoptionView/AdoptionVie
 import { ApplicationList } from './components/biz/application/applicationList/ApplicationList'
 import { ApplicationForm } from './components/biz/application/applicationForm/ApplicationForm'
 import { ApplicationDetails } from './components/biz/application/applicationDetails/ApplicationDetails'
+import { PetDetail } from './components/biz/pet/petDetail/PetDetail'
 // import { PageNotFound } from './components/pageNotFound/PageNotFound'
 
 function App() {
@@ -40,6 +41,7 @@ function App() {
         <Route element={<ProtectedRoute />}>
           <Route element={<Layout />}>
             <Route path="adopt" element={<AdoptionView />} />
+            <Route path="adopt/:id" element={<PetDetail />} />
 
             <Route path="species" element={<SpeciesList />} />
             <Route path="species/new" element={<SpeciesForm />} />
