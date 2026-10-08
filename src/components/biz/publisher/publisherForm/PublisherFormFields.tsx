@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from 'react'
 import { Button } from '../../../shared/ui/button/Button'
+import { PasswordInput } from '../../../shared/ui/passwordInput/PasswordInput'
 import { PhotoUpload } from '../../../shared/ui/photoUpload/PhotoUpload'
 import { PublisherType, type PublisherInput } from '../../../../models/publisher'
 import type { Locality } from '../../../../models/locality'
@@ -84,12 +85,12 @@ export function PublisherFormFields({
       </label>
       <label className="form-field">
         <span>{isEdit ? 'Nueva contraseña (dejar vacío para no cambiarla)' : 'Contraseña'}</span>
-        <input
-          type="password"
+        <PasswordInput
           value={password}
           onChange={(event) => setPassword(event.target.value)}
           required={!isEdit}
           minLength={6}
+          autoComplete="new-password"
         />
       </label>
       <label className="form-field">

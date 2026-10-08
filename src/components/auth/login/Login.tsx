@@ -4,6 +4,7 @@ import fluffyLogo from '../../../assets/fluffy-logo.png'
 import { useAuth } from '../../../api/AuthContext'
 import { ApiError } from '../../../api/httpClient'
 import { getDestinationByRole } from './Login.data'
+import { PasswordInput } from '../../shared/ui/passwordInput/PasswordInput'
 import '../../landing/Landing.css'
 import '../SimplePage.css'
 import './Login.css'
@@ -51,8 +52,7 @@ export function Login() {
 
           <label className="form-field">
             <span>Contraseña</span>
-            <input
-              type="password"
+            <PasswordInput
               value={password}
               onChange={(event) => setPassword(event.target.value)}
               required
