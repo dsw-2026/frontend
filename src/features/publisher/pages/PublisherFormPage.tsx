@@ -50,7 +50,7 @@ export function PublisherFormPage({ modoRegistro = false }: PublisherFormPagePro
 
   return (
     <section className="space-y-6 p-6 max-w-4xl mx-auto">
-      <Link to={modoRegistro ? '/registro' : '/publishers'} className="inline-flex items-center text-sm font-semibold text-slate-500 hover:text-slate-800 transition-colors">
+      <Link to={modoRegistro ? '/register' : '/publishers'} className="inline-flex items-center text-sm font-semibold text-slate-500 hover:text-slate-800 transition-colors">
         {modoRegistro ? '← Volver' : '← Volver a publicadores'}
       </Link>
 
