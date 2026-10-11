@@ -21,6 +21,7 @@ import { AdoptPage } from '@/features/pet/pages/AdoptPage'
 import { ApplicationListPage } from '@/features/application/pages/ApplicationListPage'
 import { ApplicationFormPage } from '@/features/application/pages/ApplicationFormPage'
 import { ApplicationDetailPage } from '@/features/application/pages/ApplicationDetailPage'
+import { NotFoundPage } from '@/features/landing/NotFoundPage'
 
 export function AppRoutes() {
   return (
@@ -74,6 +75,7 @@ export function AppRoutes() {
           <Route path="applications/:id" element={<ApplicationDetailPage />} />
         </Route>
       </Route>
+      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   )
 }

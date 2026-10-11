@@ -40,10 +40,13 @@ export function LoginPlaceholderPage() {
         
         {/* Header con el Logo */}
         <div className="flex flex-col items-center justify-center">
-          <img src={fluffyLogo} alt="Fluffy" className="h-20 w-auto object-contain mb-4" />
+          <Link to="/" className="mb-4 inline-block transition-transform hover:scale-105">
+            <img src={fluffyLogo} alt="Fluffy" className="h-20 w-auto object-contain mb-4" />
+        </Link>
           <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">Iniciar sesión</h1>
           <p className="mt-2 text-sm text-gray-500">Ingresá a tu cuenta para continuar</p>
         </div>
+        
 
         {/* Formulario */}
         <form onSubmit={handleSubmit} className="mt-8 space-y-6">
