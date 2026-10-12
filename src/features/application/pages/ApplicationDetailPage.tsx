@@ -20,29 +20,29 @@ export function ApplicationDetailPage() {
   const approve = useApproveApplication()
   const reject = useRejectApplication()
 
-  if (isLoading) return <div className="text-center py-10 text-slate-500 font-medium">Cargando…</div>
-  if (error) return <div className="p-4 m-6 bg-red-50 border border-red-200 text-red-700 rounded-lg">{error instanceof ApiError ? error.message : 'No se pudo cargar la solicitud'}</div>
+  if (isLoading) return <div className="text-center py-10 text-slate-500 dark:text-slate-400 font-medium">Cargando…</div>
+  if (error) return <div className="p-4 m-6 bg-red-50 border border-red-200 text-red-700 rounded-lg dark:bg-red-950/50 dark:border-red-800/40 dark:text-red-400">{error instanceof ApiError ? error.message : 'No se pudo cargar la solicitud'}</div>
   if (!application) return null
 
   const { pet, adopter } = application
   const breakdown = calculateBreakdown(application)
   const { points, total, percentage } = totalCompatibility(breakdown)
 
-  const cardClass = 'bg-white rounded-xl border border-slate-200 p-5 shadow-sm flex flex-col items-center text-center'
-  const factClass = 'text-sm text-slate-600'
+  const cardClass = 'bg-white rounded-xl border border-slate-200 p-5 shadow-sm flex flex-col items-center text-center dark:bg-slate-900 dark:border-slate-700'
+  const factClass = 'text-sm text-slate-600 dark:text-slate-300'
 
   return (
     <section className="space-y-6 p-6 max-w-5xl mx-auto">
-      <Link to="/applications" className="inline-flex items-center text-sm font-semibold text-slate-500 hover:text-slate-800 transition-colors">
+      <Link to="/applications" className="inline-flex items-center text-sm font-semibold text-slate-500 hover:text-slate-800 transition-colors dark:text-slate-400 dark:hover:text-slate-100">
         ← Volver a solicitudes
       </Link>
-      <h1 className="text-3xl font-bold tracking-tight text-slate-900">Detalle de la solicitud</h1>
+      <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-100">Detalle de la solicitud</h1>
 
       <div className="grid md:grid-cols-2 gap-5">
         <div className={cardClass}>
           <AvatarZoom src={adopter.profilePhoto} alt={`${adopter.firstName} ${adopter.lastName}`} fallbackText={adopter.firstName.charAt(0).toUpperCase()} />
-          <h2 className="text-xl font-bold text-slate-900 mt-3">{adopter.firstName} {adopter.lastName}</h2>
-          <p className="text-sm text-slate-500 mb-3">Adoptante</p>
+          <h2 className="text-xl font-bold text-slate-900 mt-3 dark:text-slate-100">{adopter.firstName} {adopter.lastName}</h2>
+          <p className="text-sm text-slate-500 mb-3 dark:text-slate-400">Adoptante</p>
           <ul className="space-y-1 text-left w-full">
             <li className={factClass}><strong>Email:</strong> {adopter.email}</li>
             {adopter.phone && <li className={factClass}><strong>Teléfono:</strong> {adopter.phone}</li>}
@@ -54,8 +54,8 @@ export function ApplicationDetailPage() {
 
         <div className={cardClass}>
           <AvatarZoom src={pet.photo} alt={pet.name} fallbackText={pet.name.charAt(0).toUpperCase()} />
-          <h2 className="text-xl font-bold text-slate-900 mt-3">{pet.name}</h2>
-          <p className="text-sm text-slate-500 mb-3">{pet.species?.name} · Publicado por {pet.publisher?.firstName} {pet.publisher?.lastName}</p>
+          <h2 className="text-xl font-bold text-slate-900 mt-3 dark:text-slate-100">{pet.name}</h2>
+          <p className="text-sm text-slate-500 mb-3 dark:text-slate-400">{pet.species?.name} · Publicado por {pet.publisher?.firstName} {pet.publisher?.lastName}</p>
           <ul className="space-y-1 text-left w-full">
             <li className={factClass}><strong>Sexo:</strong> {pet.sex === 'MALE' ? 'Macho' : 'Hembra'}</li>
             <li className={factClass}><strong>Edad:</strong> {pet.age} {pet.ageUnit === 'MONTHS' ? 'meses' : 'años'}</li>
@@ -66,14 +66,14 @@ export function ApplicationDetailPage() {
         </div>
       </div>
 
-      <h2 className="text-lg font-bold text-slate-900 border-b border-slate-100 pb-2">Compatibilidad</h2>
-      <p className="text-slate-700">
+      <h2 className="text-lg font-bold text-slate-900 border-b border-slate-100 pb-2 dark:text-slate-100 dark:border-slate-800">Compatibilidad</h2>
+      <p className="text-slate-700 dark:text-slate-300">
         <strong>{points} de {total} ({percentage}%)</strong> — coincidencias entre lo que busca el adoptante y las características de la mascota.
       </p>
 
-      <div className="overflow-hidden bg-white rounded-xl shadow-sm border border-slate-200">
-        <table className="w-full text-left text-sm text-slate-600">
-          <thead className="bg-slate-50 text-xs font-semibold uppercase text-slate-700 border-b border-slate-200">
+      <div className="overflow-hidden bg-white rounded-xl shadow-sm border border-slate-200 dark:bg-slate-900 dark:border-slate-700">
+        <table className="w-full text-left text-sm text-slate-600 dark:text-slate-300">
+          <thead className="bg-slate-50 text-xs font-semibold uppercase text-slate-700 border-b border-slate-200 dark:bg-slate-800 dark:text-slate-200 dark:border-slate-700">
             <tr>
               <th className="px-4 py-3">Factor</th>
               <th className="px-4 py-3">Mascota</th>
@@ -81,16 +81,16 @@ export function ApplicationDetailPage() {
               <th className="px-4 py-3">Resultado</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-100">
+          <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
             {breakdown.map((item) => (
               <tr key={item.factor}>
-                <td className="px-4 py-3 font-medium text-slate-900">{item.factor}</td>
+                <td className="px-4 py-3 font-medium text-slate-900 dark:text-slate-100">{item.factor}</td>
                 <td className="px-4 py-3">{item.petDetail}</td>
                 <td className="px-4 py-3">{item.adopterDetail}</td>
                 <td className="px-4 py-3">
                   {item.compatible
-                    ? <span className="text-green-600 font-semibold">✓ Coincide</span>
-                    : <span className="text-red-500 font-semibold">✗ No coincide</span>}
+                    ? <span className="text-green-600 font-semibold dark:text-green-400">✓ Coincide</span>
+                    : <span className="text-red-500 font-semibold dark:text-red-400">✗ No coincide</span>}
                 </td>
               </tr>
             ))}
@@ -100,8 +100,8 @@ export function ApplicationDetailPage() {
 
       {application.message && (
         <div>
-          <h2 className="text-lg font-bold text-slate-900 border-b border-slate-100 pb-2 mb-2">Mensaje del adoptante</h2>
-          <p className="text-slate-700">{application.message}</p>
+          <h2 className="text-lg font-bold text-slate-900 border-b border-slate-100 pb-2 mb-2 dark:text-slate-100 dark:border-slate-800">Mensaje del adoptante</h2>
+          <p className="text-slate-700 dark:text-slate-300">{application.message}</p>
         </div>
       )}
 
