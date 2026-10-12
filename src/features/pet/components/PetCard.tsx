@@ -32,6 +32,12 @@ export function PetCard({ pet }: PetCardProps) {
         >
           Solicitar adopción
         </Link>
+        <Link
+          to={`/adopt/${pet.id}`}
+          className="mt-auto inline-flex items-center justify-center px-4 py-2 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-700 transition-colors self-start"
+        >
+          Detalle
+        </Link>
       </div>
     </article>
   )
