@@ -2,12 +2,12 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { petService } from './pet.service'
 import { petKeys } from './pet.keys'
-import type { PetInput } from './pet.model'
+import type { PetInput, PetFilters } from './pet.model'
 
-export function usePetList(filters: { status?: string; publisher?: number } = {}) {
+export function usePetList(filters: PetFilters = {}) {
   return useQuery({
     queryKey: petKeys.list(filters),
-    queryFn: () => petService.getAll(filters.status, filters.publisher),
+    queryFn: () => petService.getAll(filters),
   })
 }
 

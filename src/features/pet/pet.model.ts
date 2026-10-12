@@ -71,3 +71,8 @@ export interface PetInput {
   toleratesConfinement: Tolerance
   additionalNotes?: string
 }
+
+export interface PetFilters {
+  status?: PetStatus
+  species?: number
+}

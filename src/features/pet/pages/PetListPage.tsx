@@ -8,9 +8,7 @@ export function PetListPage() {
   const { user } = useAuth()
   const isPublisher = user?.userType === 'Publisher'
 
-  const { data: pets = [], isLoading, error } = usePetList(
-    isPublisher ? { publisher: user?.id } : {}
-  )
+  const { data: pets = [], isLoading, error } = usePetList()
   const deletePet = useDeletePet()
 
   function handleDelete(id: number) {
