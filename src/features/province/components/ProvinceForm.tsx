@@ -35,10 +35,10 @@ export function ProvinceForm({ initialValues, onSubmit, submitting }: ProvinceFo
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="space-y-6 max-w-md bg-white p-6 rounded-xl border border-slate-100 shadow-sm"
+      className="space-y-6 max-w-md bg-white p-6 rounded-xl border border-slate-100 shadow-sm dark:bg-slate-900 dark:border-slate-700"
     >
       <div className="flex flex-col gap-2">
-        <label htmlFor="province-name" className="text-sm font-semibold text-slate-700">
+        <label htmlFor="province-name" className="text-sm font-semibold text-slate-700 dark:text-slate-200">
           Nombre
         </label>
         <input
@@ -47,15 +47,17 @@ export function ProvinceForm({ initialValues, onSubmit, submitting }: ProvinceFo
           placeholder="Ej: Córdoba"
           autoFocus
           {...register('name')}
-          className={`w-full px-3 py-2 border rounded-lg transition-all text-slate-800 focus:outline-none focus:ring-2 ${
-            errors.name ? 'border-red-300 focus:ring-red-500' : 'border-slate-300 focus:ring-blue-500'
+          className={`w-full px-3 py-2 border rounded-lg transition-all text-slate-800 focus:outline-none focus:ring-2 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-500 ${
+            errors.name
+              ? 'border-red-300 focus:ring-red-500 dark:border-red-800'
+              : 'border-slate-300 focus:ring-blue-500 dark:border-slate-700'
           }`}
         />
-        {errors.name && <span className="text-xs font-medium text-red-600">{errors.name.message}</span>}
+        {errors.name && <span className="text-xs font-medium text-red-600 dark:text-red-400">{errors.name.message}</span>}
       </div>
 
       <div className="flex flex-col gap-2">
-        <label htmlFor="province-code" className="text-sm font-semibold text-slate-700">
+        <label htmlFor="province-code" className="text-sm font-semibold text-slate-700 dark:text-slate-200">
           Código
         </label>
         <input
@@ -63,11 +65,13 @@ export function ProvinceForm({ initialValues, onSubmit, submitting }: ProvinceFo
           type="text"
           placeholder="Ej: CBA"
           {...register('code')}
-          className={`w-full px-3 py-2 border rounded-lg transition-all text-slate-800 uppercase focus:outline-none focus:ring-2 ${
-            errors.code ? 'border-red-300 focus:ring-red-500' : 'border-slate-300 focus:ring-blue-500'
+          className={`w-full px-3 py-2 border rounded-lg transition-all text-slate-800 uppercase focus:outline-none focus:ring-2 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-500 ${
+            errors.code
+              ? 'border-red-300 focus:ring-red-500 dark:border-red-800'
+              : 'border-slate-300 focus:ring-blue-500 dark:border-slate-700'
           }`}
         />
-        {errors.code && <span className="text-xs font-medium text-red-600">{errors.code.message}</span>}
+        {errors.code && <span className="text-xs font-medium text-red-600 dark:text-red-400">{errors.code.message}</span>}
       </div>
 
       <div className="flex justify-end">

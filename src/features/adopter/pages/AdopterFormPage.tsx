@@ -22,7 +22,7 @@ export function AdopterFormPage({ modoRegistro = false }: AdopterFormPageProps) 
     })
   }
 
-  if (isLoading) return <div className="text-center py-10 text-slate-500 font-medium">Cargando…</div>
+  if (isLoading) return <div className="text-center py-10 text-slate-500 dark:text-slate-400 font-medium">Cargando…</div>
 
   const displayError = saveAdopter.error || fetchError
   const errorMessage = displayError instanceof ApiError ? displayError.message : displayError ? 'No se pudo guardar el adoptante' : null
@@ -50,15 +50,15 @@ export function AdopterFormPage({ modoRegistro = false }: AdopterFormPageProps) 
 
   return (
     <section className="space-y-6 p-6 max-w-4xl mx-auto">
-      <Link to={modoRegistro ? '/registro' : '/adopters'} className="inline-flex items-center text-sm font-semibold text-slate-500 hover:text-slate-800 transition-colors">
+      <Link to={modoRegistro ? '/register' : '/adopters'} className="inline-flex items-center text-sm font-semibold text-slate-500 hover:text-slate-800 transition-colors dark:text-slate-400 dark:hover:text-slate-100">
         {modoRegistro ? '← Volver' : '← Volver a adoptantes'}
       </Link>
 
-      <h1 className="text-3xl font-bold tracking-tight text-slate-900">
+      <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
         {modoRegistro ? 'Crear cuenta de adoptante' : isEdit ? 'Editar adoptante' : 'Nuevo adoptante'}
       </h1>
 
-      {errorMessage && <div className="p-4 bg-red-50 border border-red-200 text-red-700 text-sm rounded-lg font-medium">{errorMessage}</div>}
+      {errorMessage && <div className="p-4 bg-red-50 border border-red-200 text-red-700 text-sm rounded-lg font-medium dark:bg-red-950/50 dark:border-red-800/40 dark:text-red-400">{errorMessage}</div>}
 
       <AdopterForm initialValues={initialValues} isEdit={isEdit} onSubmit={handleSubmit} submitting={saveAdopter.isPending} />
     </section>

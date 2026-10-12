@@ -30,10 +30,10 @@ export function SpeciesForm({ initialValues, onSubmit, submitting }: SpeciesForm
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="space-y-6 max-w-md bg-white p-6 rounded-xl border border-slate-100 shadow-sm"
+      className="space-y-6 max-w-md bg-white p-6 rounded-xl border border-slate-100 shadow-sm dark:bg-slate-900 dark:border-slate-700"
     >
       <div className="flex flex-col gap-2">
-        <label htmlFor="species-name" className="text-sm font-semibold text-slate-700">
+        <label htmlFor="species-name" className="text-sm font-semibold text-slate-700 dark:text-slate-200">
           Nombre de la especie
         </label>
         <input
@@ -42,14 +42,14 @@ export function SpeciesForm({ initialValues, onSubmit, submitting }: SpeciesForm
           placeholder="Ej: Perro, Gato..."
           autoFocus
           {...register('name')}
-          className={`w-full px-3 py-2 border rounded-lg transition-all text-slate-800 focus:outline-none focus:ring-2 ${
+          className={`w-full px-3 py-2 border rounded-lg transition-all text-slate-800 focus:outline-none focus:ring-2 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-500 ${
             errors.name
-              ? 'border-red-300 focus:ring-red-500'
-              : 'border-slate-300 focus:ring-blue-500'
+              ? 'border-red-300 focus:ring-red-500 dark:border-red-800'
+              : 'border-slate-300 focus:ring-blue-500 dark:border-slate-700'
           }`}
         />
         {errors.name && (
-          <span className="text-xs font-medium text-red-600">{errors.name.message}</span>
+          <span className="text-xs font-medium text-red-600 dark:text-red-400">{errors.name.message}</span>
         )}
       </div>
 

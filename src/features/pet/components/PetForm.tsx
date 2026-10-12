@@ -42,9 +42,10 @@ interface PetFormProps {
   submitting: boolean
 }
 
-const inputClass = 'w-full px-3 py-2 border border-slate-300 rounded-lg text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500'
-const labelClass = 'text-sm font-semibold text-slate-700'
-const sectionClass = 'text-lg font-bold text-slate-900 border-b border-slate-100 pb-2'
+const inputClass = 'w-full px-3 py-2 border border-slate-300 rounded-lg text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-100 dark:placeholder:text-slate-500'
+const labelClass = 'text-sm font-semibold text-slate-700 dark:text-slate-200'
+const sectionClass = 'text-lg font-bold text-slate-900 border-b border-slate-100 pb-2 dark:text-slate-100 dark:border-slate-800'
+const errorClass = 'text-xs text-red-600 dark:text-red-400'
 
 export function PetForm({ initialValues, onSubmit, submitting }: PetFormProps) {
   const { data: species = [] } = useSpeciesList()
@@ -71,17 +72,17 @@ export function PetForm({ initialValues, onSubmit, submitting }: PetFormProps) {
   const submit = handleSubmit((values) => onSubmit({ ...values, species: Number(values.species), age: Number(values.age) } as PetInput))
 
   if (species.length === 0) {
-    return <p className="text-slate-500">No hay especies cargadas. Creá una primero para poder registrar una mascota.</p>
+    return <p className="text-slate-500 dark:text-slate-400">No hay especies cargadas. Creá una primero para poder registrar una mascota.</p>
   }
 
   return (
-    <form onSubmit={submit} className="space-y-6 max-w-2xl bg-white p-6 rounded-xl border border-slate-100 shadow-sm">
+    <form onSubmit={submit} className="space-y-6 max-w-2xl bg-white p-6 rounded-xl border border-slate-100 shadow-sm dark:bg-slate-900 dark:border-slate-700">
       <h2 className={sectionClass}>Datos de la mascota</h2>
       <div className="grid sm:grid-cols-2 gap-4">
         <div className="flex flex-col gap-1">
           <label className={labelClass}>Nombre</label>
           <input autoFocus {...register('name')} className={inputClass} />
-          {errors.name && <span className="text-xs text-red-600">{errors.name.message}</span>}
+          {errors.name && <span className={errorClass}>{errors.name.message}</span>}
         </div>
         <div className="flex flex-col gap-1">
           <label className={labelClass}>Especie</label>
@@ -89,7 +90,7 @@ export function PetForm({ initialValues, onSubmit, submitting }: PetFormProps) {
             <option value="">Seleccioná una especie</option>
             {species.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
           </select>
-          {errors.species && <span className="text-xs text-red-600">{errors.species.message}</span>}
+          {errors.species && <span className={errorClass}>{errors.species.message}</span>}
         </div>
         <div className="flex flex-col gap-1">
           <label className={labelClass}>Sexo</label>
@@ -100,7 +101,7 @@ export function PetForm({ initialValues, onSubmit, submitting }: PetFormProps) {
         <div className="flex flex-col gap-1">
           <label className={labelClass}>Edad</label>
           <input type="number" min={0} {...register('age')} className={inputClass} />
-          {errors.age && <span className="text-xs text-red-600">{errors.age.message}</span>}
+          {errors.age && <span className={errorClass}>{errors.age.message}</span>}
         </div>
         <div className="flex flex-col gap-1">
           <label className={labelClass}>Unidad de edad</label>
@@ -137,15 +138,15 @@ export function PetForm({ initialValues, onSubmit, submitting }: PetFormProps) {
         <div className="flex flex-col gap-1 sm:col-span-2">
           <label className={labelClass}>Carácter</label>
           <input {...register('temperament')} placeholder="Ej: Juguetón y cariñoso" className={inputClass} />
-          {errors.temperament && <span className="text-xs text-red-600">{errors.temperament.message}</span>}
+          {errors.temperament && <span className={errorClass}>{errors.temperament.message}</span>}
         </div>
         <label className="flex items-center gap-2">
           <input type="checkbox" {...register('vaccinated')} />
-          <span className="text-sm text-slate-700">Vacunado</span>
+          <span className="text-sm text-slate-700 dark:text-slate-200">Vacunado</span>
         </label>
         <label className="flex items-center gap-2">
           <input type="checkbox" {...register('neutered')} />
-          <span className="text-sm text-slate-700">Castrado</span>
+          <span className="text-sm text-slate-700 dark:text-slate-200">Castrado</span>
         </label>
         <div className="flex flex-col gap-1">
           <label className={labelClass}>Tolera niños</label>

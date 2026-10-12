@@ -45,9 +45,10 @@ interface PublisherFormProps {
   submitting: boolean
 }
 
-const inputClass = 'w-full px-3 py-2 border border-slate-300 rounded-lg text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500'
-const labelClass = 'text-sm font-semibold text-slate-700'
-const sectionClass = 'text-lg font-bold text-slate-900 border-b border-slate-100 pb-2'
+const inputClass = 'w-full px-3 py-2 border border-slate-300 rounded-lg text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-100 dark:placeholder:text-slate-500'
+const labelClass = 'text-sm font-semibold text-slate-700 dark:text-slate-200'
+const sectionClass = 'text-lg font-bold text-slate-900 border-b border-slate-100 pb-2 dark:text-slate-100 dark:border-slate-800'
+const errorClass = 'text-xs text-red-600 dark:text-red-400'
 
 export function PublisherForm({ initialValues, isEdit, onSubmit, submitting }: PublisherFormProps) {
   const { data: localities = [] } = useLocalityList()
@@ -96,23 +97,23 @@ export function PublisherForm({ initialValues, isEdit, onSubmit, submitting }: P
   })
 
   return (
-    <form onSubmit={submit} className="space-y-6 max-w-2xl bg-white p-6 rounded-xl border border-slate-100 shadow-sm">
+    <form onSubmit={submit} className="space-y-6 max-w-2xl bg-white p-6 rounded-xl border border-slate-100 shadow-sm dark:bg-slate-900 dark:border-slate-700">
       <h2 className={sectionClass}>Cuenta</h2>
       <div className="grid sm:grid-cols-2 gap-4">
         <div className="flex flex-col gap-1">
           <label className={labelClass}>Nombre de usuario</label>
           <input autoFocus {...register('username')} className={inputClass} />
-          {errors.username && <span className="text-xs text-red-600">{errors.username.message}</span>}
+          {errors.username && <span className={errorClass}>{errors.username.message}</span>}
         </div>
         <div className="flex flex-col gap-1">
           <label className={labelClass}>{isEdit ? 'Nueva contraseña (opcional)' : 'Contraseña'}</label>
           <input type="password" {...register('password')} className={inputClass} />
-          {errors.password && <span className="text-xs text-red-600">{errors.password.message}</span>}
+          {errors.password && <span className={errorClass}>{errors.password.message}</span>}
         </div>
         <div className="flex flex-col gap-1 sm:col-span-2">
           <label className={labelClass}>Email</label>
           <input type="email" {...register('email')} className={inputClass} />
-          {errors.email && <span className="text-xs text-red-600">{errors.email.message}</span>}
+          {errors.email && <span className={errorClass}>{errors.email.message}</span>}
         </div>
       </div>
 
@@ -121,12 +122,12 @@ export function PublisherForm({ initialValues, isEdit, onSubmit, submitting }: P
         <div className="flex flex-col gap-1">
           <label className={labelClass}>Nombre</label>
           <input {...register('firstName')} className={inputClass} />
-          {errors.firstName && <span className="text-xs text-red-600">{errors.firstName.message}</span>}
+          {errors.firstName && <span className={errorClass}>{errors.firstName.message}</span>}
         </div>
         <div className="flex flex-col gap-1">
           <label className={labelClass}>Apellido</label>
           <input {...register('lastName')} className={inputClass} />
-          {errors.lastName && <span className="text-xs text-red-600">{errors.lastName.message}</span>}
+          {errors.lastName && <span className={errorClass}>{errors.lastName.message}</span>}
         </div>
         <div className="flex flex-col gap-1">
           <label className={labelClass}>Teléfono</label>
@@ -160,7 +161,7 @@ export function PublisherForm({ initialValues, isEdit, onSubmit, submitting }: P
         {isEdit && (
           <label className="flex items-center gap-2 sm:col-span-2">
             <input type="checkbox" {...register('verified')} />
-            <span className="text-sm text-slate-700">Verificado</span>
+            <span className="text-sm text-slate-700 dark:text-slate-200">Verificado</span>
           </label>
         )}
         <div className="flex flex-col gap-1">

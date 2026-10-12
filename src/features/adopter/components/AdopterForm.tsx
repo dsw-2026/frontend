@@ -39,8 +39,11 @@ interface Props {
   submitting: boolean
 }
 
-const inputCls = 'w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500'
-const chkCls = 'flex items-center gap-2 text-sm text-slate-700 cursor-pointer'
+const inputCls = 'w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-100 dark:placeholder:text-slate-500'
+const chkCls = 'flex items-center gap-2 text-sm text-slate-700 cursor-pointer dark:text-slate-200'
+const labelCls = 'text-xs font-semibold text-slate-600 dark:text-slate-300'
+const sectionCls = 'text-base font-bold text-slate-800 border-b pb-1 dark:text-slate-100 dark:border-slate-800'
+const errCls = 'text-xs text-red-500 dark:text-red-400'
 
 export function AdopterForm({ initialValues, isEdit, onSubmit, submitting }: Props) {
   const { data: localities = [] } = useLocalityList()
@@ -67,42 +70,42 @@ export function AdopterForm({ initialValues, isEdit, onSubmit, submitting }: Pro
   })
 
   return (
-    <form onSubmit={submit} className="max-w-2xl bg-white p-6 rounded-xl border border-slate-100 shadow-sm space-y-6">
+    <form onSubmit={submit} className="max-w-2xl bg-white p-6 rounded-xl border border-slate-100 shadow-sm space-y-6 dark:bg-slate-900 dark:border-slate-700">
       {/* Cuenta */}
       <div className="space-y-4">
-        <h2 className="text-base font-bold text-slate-800 border-b pb-1">Cuenta</h2>
+        <h2 className={sectionCls}>Cuenta</h2>
         <div className="grid sm:grid-cols-2 gap-3">
           <div>
-            <label className="text-xs font-semibold text-slate-600">Usuario</label>
+            <label className={labelCls}>Usuario</label>
             <input {...register('username')} className={inputCls} />
-            {errors.username && <span className="text-xs text-red-500">{errors.username.message}</span>}
+            {errors.username && <span className={errCls}>{errors.username.message}</span>}
           </div>
           <div>
-            <label className="text-xs font-semibold text-slate-600">{isEdit ? 'Nueva contraseña' : 'Contraseña'}</label>
+            <label className={labelCls}>{isEdit ? 'Nueva contraseña' : 'Contraseña'}</label>
             <input type="password" {...register('password')} className={inputCls} />
-            {errors.password && <span className="text-xs text-red-500">{errors.password.message}</span>}
+            {errors.password && <span className={errCls}>{errors.password.message}</span>}
           </div>
           <div className="sm:col-span-2">
-            <label className="text-xs font-semibold text-slate-600">Email</label>
+            <label className={labelCls}>Email</label>
             <input type="email" {...register('email')} className={inputCls} />
-            {errors.email && <span className="text-xs text-red-500">{errors.email.message}</span>}
+            {errors.email && <span className={errCls}>{errors.email.message}</span>}
           </div>
         </div>
       </div>
 
       {/* Datos Personales */}
       <div className="space-y-4">
-        <h2 className="text-base font-bold text-slate-800 border-b pb-1">Datos personales</h2>
+        <h2 className={sectionCls}>Datos personales</h2>
         <div className="grid sm:grid-cols-2 gap-3">
           <div>
-            <label className="text-xs font-semibold text-slate-600">Nombre</label>
+            <label className={labelCls}>Nombre</label>
             <input {...register('firstName')} className={inputCls} />
-            {errors.firstName && <span className="text-xs text-red-500">{errors.firstName.message}</span>}
+            {errors.firstName && <span className={errCls}>{errors.firstName.message}</span>}
           </div>
           <div>
-            <label className="text-xs font-semibold text-slate-600">Apellido</label>
+            <label className={labelCls}>Apellido</label>
             <input {...register('lastName')} className={inputCls} />
-            {errors.lastName && <span className="text-xs text-red-500">{errors.lastName.message}</span>}
+            {errors.lastName && <span className={errCls}>{errors.lastName.message}</span>}
           </div>
           <input type="tel" placeholder="Teléfono" {...register('phone')} className={inputCls} />
           <input placeholder="Dirección" {...register('address')} className={inputCls} />
@@ -119,7 +122,7 @@ export function AdopterForm({ initialValues, isEdit, onSubmit, submitting }: Pro
 
       {/* Adoptante */}
       <div className="space-y-4">
-        <h2 className="text-base font-bold text-slate-800 border-b pb-1">Datos de adoptante</h2>
+        <h2 className={sectionCls}>Datos de adoptante</h2>
         <div className="grid sm:grid-cols-2 gap-3">
           <input placeholder="Ocupación" {...register('occupation')} className={inputCls} />
           <select {...register('housingType')} className={inputCls}>
