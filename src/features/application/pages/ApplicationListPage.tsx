@@ -3,14 +3,24 @@ import { useApplicationList, useApproveApplication, useRejectApplication, useDel
 import { ApplicationTable } from '../components/ApplicationTable'
 import { ApiError } from '@/shared/api/httpClient'
 import { useAuth } from '@/shared/api/useAuth'
+import { ApplicationStatus } from '../application.model.ts'
+import { useState } from 'react'
+
+const STATUS_LABELS: Record<ApplicationStatus, string> = {
+  PENDING: 'Pendiente',
+  APPROVED: 'Aprobada',
+  REJECTED: 'Rechazada',
+}
 
 export function ApplicationListPage() {
   const { user } = useAuth()
   const isAdopter = user?.userType === 'Adopter'
   const isPublisher = user?.userType === 'Publisher'
   const isAdmin = user?.userType === 'Admin'
+  const [status, setStatus] = useState<ApplicationStatus | undefined>()
 
   const { data: applications = [], isLoading, error } = useApplicationList()
+  const filtered = status ? applications.filter((a) => a.status === status) : applications
   const approve = useApproveApplication()
   const reject = useRejectApplication()
   const remove = useDeleteApplication()
@@ -44,9 +54,19 @@ export function ApplicationListPage() {
           >
             + Nueva solicitud
           </Link>
+          
         )}
       </div>
-
+        <select
+          value={status ?? ''}
+          onChange={(e) => setStatus(e.target.value as ApplicationStatus)}
+          className="px-3 py-2 text-sm text-slate-700 bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-slate-900 dark:text-slate-200 dark:border-slate-700"
+        >
+          <option value="">Todos los estados</option>
+          {Object.values(ApplicationStatus).map((s) => (
+            <option key={s} value={s}>{STATUS_LABELS[s]}</option>
+          ))}
+        </select>
       {isLoading && (
         <div className="text-center py-10 text-slate-500 dark:text-slate-400 font-medium">
           Cargando…
@@ -61,7 +81,7 @@ export function ApplicationListPage() {
 
       {!isLoading && !errorMessage && (
         <ApplicationTable
-          applications={applications}
+          applications={filtered}
           canResolve={isPublisher}
           canDelete={!isAdmin}
           onApprove={handleApprove}
