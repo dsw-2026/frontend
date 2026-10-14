@@ -3,6 +3,7 @@ import { toast } from 'sonner'
 import { applicationService } from './application.service'
 import { applicationKeys } from './application.keys'
 import type { ApplicationInput } from './application.model'
+import { petKeys } from '../pet/pet.keys'
 
 export function useApplicationList(status?: string) {
   return useQuery({
@@ -37,8 +38,9 @@ export function useApproveApplication() {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: (id: number) => applicationService.approve(id),
-    onSuccess: () => {
+      onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: applicationKeys.all })
+      queryClient.invalidateQueries({ queryKey: petKeys.all })
       toast.success('Solicitud aprobada con éxito')
     },
     onError: () => {
@@ -51,8 +53,9 @@ export function useRejectApplication() {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: (id: number) => applicationService.reject(id),
-    onSuccess: () => {
+      onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: applicationKeys.all })
+      queryClient.invalidateQueries({ queryKey: petKeys.all })
       toast.success('Solicitud rechazada correctamente')
     },
     onError: () => {
