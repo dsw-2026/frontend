@@ -2,11 +2,19 @@ import { Link } from 'react-router-dom'
 import { useLocalityList, useDeleteLocality } from '../useLocalities'
 import { LocalityTable } from '../components/LocalityTable'
 import { ApiError } from '@/shared/api/httpClient'
+import { useMemo, useState } from 'react'
+import { useProvinceList } from '@/features/province/useProvinces'
 
 export function LocalityListPage() {
   const { data: localities = [], isLoading, error } = useLocalityList()
+  const { data: provinces = [] } = useProvinceList()
   const deleteLocality = useDeleteLocality()
+  const [provinceId, setProvinceId] = useState('')
 
+  const filtered = useMemo(
+    () => (provinceId ? localities.filter((l) => String(l.province?.id) === provinceId) : localities),
+    [localities, provinceId],
+  )
   function handleDelete(id: number) {
     if (!window.confirm('¿Eliminar esta localidad?')) return
     deleteLocality.mutate(id, {
@@ -48,8 +56,21 @@ export function LocalityListPage() {
           {errorMessage}
         </div>
       )}
-
-      {!isLoading && !errorMessage && <LocalityTable localities={localities} onDelete={handleDelete} />}
+    <div className="flex flex-wrap items-center gap-3">
+  <label htmlFor="province-filter" className="text-sm font-semibold text-slate-700 dark:text-slate-200">
+    Provincia
+  </label>
+  <select
+    id="province-filter"
+    value={provinceId}
+    onChange={(e) => setProvinceId(e.target.value)}
+    className="px-3 py-2 border border-slate-300 rounded-lg text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-100"
+  >
+    <option value="">Todas las provincias</option>
+    {provinces.map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}
+  </select>
+</div>
+      {!isLoading && !errorMessage && <LocalityTable localities={filtered} onDelete={handleDelete} />}
     </section>
   )
 }

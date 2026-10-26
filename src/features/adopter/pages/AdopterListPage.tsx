@@ -1,10 +1,18 @@
 import { useAdopterList, useDeleteAdopter } from '../useAdopters'
 import { AdopterTable } from '../components/AdopterTable'
 import { ApiError } from '@/shared/api/httpClient'
+import { useMemo, useState } from 'react'
 
 export function AdopterListPage() {
   const { data: adopters = [], isLoading, error } = useAdopterList()
   const deleteAdopter = useDeleteAdopter()
+  const [verified, setVerified] = useState('')
+
+  const filtered = useMemo(() => {
+    if (verified === 'yes') return adopters.filter((a) => a.verified)
+    if (verified === 'no') return adopters.filter((a) => !a.verified)
+    return adopters
+  }, [adopters, verified])
 
   function handleDelete(id: number) {
     if (!window.confirm('¿Eliminar este adoptante?')) return
@@ -37,8 +45,22 @@ export function AdopterListPage() {
           {errorMessage}
         </div>
       )}
-
-      {!isLoading && !errorMessage && <AdopterTable adopters={adopters} onDelete={handleDelete} />}
+      <div className="flex flex-wrap items-center gap-3">
+      <label htmlFor="verified-filter" className="text-sm font-semibold text-slate-700 dark:text-slate-200">
+        Verificación
+      </label>
+      <select
+        id="verified-filter"
+        value={verified}
+        onChange={(e) => setVerified(e.target.value)}
+        className="px-3 py-2 border border-slate-300 rounded-lg text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-100"
+      >
+        <option value="">Todos</option>
+        <option value="yes">Verificados</option>
+        <option value="no">No verificados</option>
+      </select>
+    </div>
+      {!isLoading && !errorMessage && <AdopterTable adopters={filtered} onDelete={handleDelete} />}
     </section>
   )
 }

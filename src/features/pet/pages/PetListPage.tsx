@@ -1,5 +1,7 @@
+import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { usePetList, useDeletePet } from '../usePets'
+import { useSpeciesList } from '@/features/species/useSpecies'
 import { PetTable } from '../components/PetTable'
 import { ApiError } from '@/shared/api/httpClient'
 import { useAuth } from '@/shared/api/useAuth'
@@ -9,8 +11,14 @@ export function PetListPage() {
   const isPublisher = user?.userType === 'Publisher'
 
   const { data: pets = [], isLoading, error } = usePetList()
+  const { data: species = [] } = useSpeciesList()
   const deletePet = useDeletePet()
+  const [speciesId, setSpeciesId] = useState('')
 
+  const filtered = useMemo(
+    () => (speciesId ? pets.filter((p) => String(p.species?.id ?? p.species) === speciesId) : pets),
+    [pets, speciesId],
+  )
   function handleDelete(id: number) {
     if (!window.confirm('¿Eliminar esta mascota?')) return
     deletePet.mutate(id, {
@@ -52,9 +60,23 @@ export function PetListPage() {
           {errorMessage}
         </div>
       )}
-
+      
+      <div className="flex flex-wrap items-center gap-3">
+      <label htmlFor="species-filter" className="text-sm font-semibold text-slate-700 dark:text-slate-200">
+        Especie
+      </label>
+      <select
+        id="species-filter"
+        value={speciesId}
+        onChange={(e) => setSpeciesId(e.target.value)}
+        className="px-3 py-2 border border-slate-300 rounded-lg text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-100"
+      >
+        <option value="">Todas las especies</option>
+        {species.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
+      </select>
+    </div>
       {!isLoading && !errorMessage && (
-        <PetTable pets={pets} showPublisher={!isPublisher} onDelete={handleDelete} />
+        <PetTable pets={filtered} showPublisher={!isPublisher} onDelete={handleDelete} />
       )}
     </section>
   )
