@@ -16,7 +16,7 @@ const ENERGY_LABELS: Record<EnergyLevel, string> = { LOW: 'Baja', MEDIUM: 'Media
 const TOLERANCE_LABELS: Record<Tolerance, string> = { YES: 'Sí', NO: 'No', UNKNOWN: 'Desconocido' }
 
 const petSchema = z.object({
-  name: z.string().min(1, { message: 'El nombre es obligatorio' }),
+  name: z.string().trim().min(1, { message: 'El nombre es obligatorio' }),
   sex: z.enum(Sex),
   age: z.coerce.number().int().positive({ message: 'La edad debe ser positiva' }),
   ageUnit: z.enum(AgeUnit),
@@ -57,6 +57,7 @@ export function PetForm({ initialValues, onSubmit, submitting }: PetFormProps) {
     formState: { errors },
   } = useForm<FormValues>({
     resolver: zodResolver(petSchema),
+    mode: 'onTouched',
     defaultValues: {
       name: '', sex: 'MALE', age: 1, ageUnit: 'YEARS', status: 'AVAILABLE', photo: '',
       energyLevel: 'MEDIUM', temperament: '', size: 'MEDIUM',
@@ -80,12 +81,12 @@ export function PetForm({ initialValues, onSubmit, submitting }: PetFormProps) {
       <h2 className={sectionClass}>Datos de la mascota</h2>
       <div className="grid sm:grid-cols-2 gap-4">
         <div className="flex flex-col gap-1">
-          <label className={labelClass}>Nombre</label>
+          <label className={labelClass}>Nombre*</label>
           <input autoFocus {...register('name')} className={inputClass} />
           {errors.name && <span className={errorClass}>{errors.name.message}</span>}
         </div>
         <div className="flex flex-col gap-1">
-          <label className={labelClass}>Especie</label>
+          <label className={labelClass}>Especie*</label>
           <select {...register('species')} className={inputClass}>
             <option value="">Seleccioná una especie</option>
             {species.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}

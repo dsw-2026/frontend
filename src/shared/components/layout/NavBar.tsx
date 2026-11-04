@@ -5,6 +5,12 @@ import { useAuth } from '@/shared/api/useAuth'
 import { Button } from '@/shared/components/ui/Button'
 import { ThemeToggle } from '@/shared/components/ui/ThemeToggle'
 
+const USER_TYPE_LABELS: Record<string, string> = {
+  Admin: 'Administrador',
+  Publisher: 'Publicador',
+  Adopter: 'Adoptante',
+}
+
 export function Navbar() {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
@@ -70,7 +76,9 @@ export function Navbar() {
               <div className="flex items-center gap-3 pl-2 border-l border-slate-200 dark:border-slate-800">
                 <div className="text-right">
                   <p className="text-sm font-bold text-slate-900 dark:text-slate-100 leading-tight">{user.username}</p>
-                  <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 capitalize">{user.userType.toLowerCase()}</p>
+                  <p className="text-xs font-semibold text-slate-500 dark:text-slate-400">
+                    {USER_TYPE_LABELS[user.userType] ?? user.userType}
+                  </p>
                 </div>
                 <Button 
                   variant="secondary" 

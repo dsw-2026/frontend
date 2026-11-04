@@ -1,11 +1,18 @@
 import { usePublisherList, useDeletePublisher } from '../usePublishers'
 import { PublisherTable } from '../components/PublisherTable'
 import { ApiError } from '@/shared/api/httpClient'
+import { useMemo, useState } from 'react'
 
 export function PublisherListPage() {
   const { data: publishers = [], isLoading, error } = usePublisherList()
   const deletePublisher = useDeletePublisher()
+  const [verified, setVerified] = useState('')
 
+  const filtered = useMemo(() => {
+    if (verified === 'yes') return publishers.filter((p) => p.verified)
+    if (verified === 'no') return publishers.filter((p) => !p.verified)
+    return publishers
+  }, [publishers, verified])
   function handleDelete(id: number) {
     if (!window.confirm('¿Eliminar este publicador?')) return
     deletePublisher.mutate(id, {
@@ -38,9 +45,23 @@ export function PublisherListPage() {
           {errorMessage}
         </div>
       )}
-
+      <div className="flex flex-wrap items-center gap-3">
+      <label htmlFor="verified-filter" className="text-sm font-semibold text-slate-700 dark:text-slate-200">
+        Verificación
+      </label>
+      <select
+        id="verified-filter"
+        value={verified}
+        onChange={(e) => setVerified(e.target.value)}
+        className="px-3 py-2 border border-slate-300 rounded-lg text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-100"
+      >
+        <option value="">Todos</option>
+        <option value="yes">Verificados</option>
+        <option value="no">No verificados</option>
+      </select>
+    </div>
       {!isLoading && !errorMessage && (
-        <PublisherTable publishers={publishers} onDelete={handleDelete} />
+        <PublisherTable publishers={filtered} onDelete={handleDelete} />
       )}
     </section>
   )

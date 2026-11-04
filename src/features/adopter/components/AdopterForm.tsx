@@ -10,11 +10,11 @@ const HOUSING_LABELS: Record<HousingType, string> = { HOUSE: 'Casa', APARTMENT: 
 
 function buildSchema(isEdit: boolean) {
   return z.object({
-    username: z.string().min(1, 'El nombre de usuario es obligatorio'),
+    username: z.string().trim().min(1, 'El nombre de usuario es obligatorio'),
     password: isEdit ? z.string().optional() : z.string().min(6, 'Mínimo 6 caracteres'),
     email: z.string().email('Email inválido'),
-    firstName: z.string().min(1, 'Obligatorio'),
-    lastName: z.string().min(1, 'Obligatorio'),
+    firstName: z.string().trim().min(1, 'Obligatorio'),
+    lastName: z.string().trim().min(1, 'Obligatorio'),
     phone: z.string().optional(),
     description: z.string().optional(),
     address: z.string().optional(),
@@ -50,6 +50,7 @@ export function AdopterForm({ initialValues, isEdit, onSubmit, submitting }: Pro
   const { register, handleSubmit, control, setValue, formState: { errors } } = useForm<FormValues>({
     resolver: zodResolver(buildSchema(isEdit)),
     defaultValues: { ...initialValues },
+    mode: "onTouched"
   })
 
   const profilePhoto = useWatch({ control, name: 'profilePhoto' })
@@ -76,17 +77,17 @@ export function AdopterForm({ initialValues, isEdit, onSubmit, submitting }: Pro
         <h2 className={sectionCls}>Cuenta</h2>
         <div className="grid sm:grid-cols-2 gap-3">
           <div>
-            <label className={labelCls}>Usuario</label>
+            <label className={labelCls}>Usuario*</label>
             <input {...register('username')} className={inputCls} />
             {errors.username && <span className={errCls}>{errors.username.message}</span>}
           </div>
           <div>
-            <label className={labelCls}>{isEdit ? 'Nueva contraseña' : 'Contraseña'}</label>
+            <label className={labelCls}>{isEdit ? 'Nueva contraseña' : 'Contraseña*'}</label>
             <input type="password" {...register('password')} className={inputCls} />
             {errors.password && <span className={errCls}>{errors.password.message}</span>}
           </div>
           <div className="sm:col-span-2">
-            <label className={labelCls}>Email</label>
+            <label className={labelCls}>Email*</label>
             <input type="email" {...register('email')} className={inputCls} />
             {errors.email && <span className={errCls}>{errors.email.message}</span>}
           </div>
@@ -98,12 +99,12 @@ export function AdopterForm({ initialValues, isEdit, onSubmit, submitting }: Pro
         <h2 className={sectionCls}>Datos personales</h2>
         <div className="grid sm:grid-cols-2 gap-3">
           <div>
-            <label className={labelCls}>Nombre</label>
+            <label className={labelCls}>Nombre*</label>
             <input {...register('firstName')} className={inputCls} />
             {errors.firstName && <span className={errCls}>{errors.firstName.message}</span>}
           </div>
           <div>
-            <label className={labelCls}>Apellido</label>
+            <label className={labelCls}>Apellido*</label>
             <input {...register('lastName')} className={inputCls} />
             {errors.lastName && <span className={errCls}>{errors.lastName.message}</span>}
           </div>

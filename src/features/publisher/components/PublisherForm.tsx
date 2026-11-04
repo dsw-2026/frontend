@@ -14,13 +14,13 @@ const PUBLISHER_TYPE_LABELS: Record<PublisherType, string> = {
 
 function buildSchema(isEdit: boolean) {
   return z.object({
-    username: z.string().min(1, { message: 'El nombre de usuario es obligatorio' }),
+    username: z.string().trim().min(1, { message: 'El nombre de usuario es obligatorio' }),
     password: isEdit
       ? z.string().optional()
       : z.string().min(6, { message: 'La contraseña debe tener al menos 6 caracteres' }),
-    email: z.string().email({ message: 'El email no es válido' }),
-    firstName: z.string().min(1, { message: 'El nombre es obligatorio' }),
-    lastName: z.string().min(1, { message: 'El apellido es obligatorio' }),
+    email: z.string().trim().email({ message: 'El email no es válido' }),
+    firstName: z.string().trim().min(1, { message: 'El nombre es obligatorio' }),
+    lastName: z.string().trim().min(1, { message: 'El apellido es obligatorio' }),
     phone: z.string().optional(),
     description: z.string().optional(),
     address: z.string().optional(),
@@ -60,6 +60,7 @@ export function PublisherForm({ initialValues, isEdit, onSubmit, submitting }: P
     formState: { errors },
   } = useForm<FormValues>({
     resolver: zodResolver(buildSchema(isEdit)),
+    mode: 'onTouched',
     defaultValues: {
       username: '', password: '', email: '', firstName: '', lastName: '',
       phone: '', description: '', address: '', profilePhoto: '',
@@ -101,17 +102,17 @@ export function PublisherForm({ initialValues, isEdit, onSubmit, submitting }: P
       <h2 className={sectionClass}>Cuenta</h2>
       <div className="grid sm:grid-cols-2 gap-4">
         <div className="flex flex-col gap-1">
-          <label className={labelClass}>Nombre de usuario</label>
+          <label className={labelClass}>Nombre de usuario*</label>
           <input autoFocus {...register('username')} className={inputClass} />
           {errors.username && <span className={errorClass}>{errors.username.message}</span>}
         </div>
         <div className="flex flex-col gap-1">
-          <label className={labelClass}>{isEdit ? 'Nueva contraseña (opcional)' : 'Contraseña'}</label>
+          <label className={labelClass}>{isEdit ? 'Nueva contraseña (opcional)' : 'Contraseña*'}</label>
           <input type="password" {...register('password')} className={inputClass} />
           {errors.password && <span className={errorClass}>{errors.password.message}</span>}
         </div>
         <div className="flex flex-col gap-1 sm:col-span-2">
-          <label className={labelClass}>Email</label>
+          <label className={labelClass}>Email*</label>
           <input type="email" {...register('email')} className={inputClass} />
           {errors.email && <span className={errorClass}>{errors.email.message}</span>}
         </div>
@@ -120,12 +121,12 @@ export function PublisherForm({ initialValues, isEdit, onSubmit, submitting }: P
       <h2 className={sectionClass}>Datos personales</h2>
       <div className="grid sm:grid-cols-2 gap-4">
         <div className="flex flex-col gap-1">
-          <label className={labelClass}>Nombre</label>
+          <label className={labelClass}>Nombre*</label>
           <input {...register('firstName')} className={inputClass} />
           {errors.firstName && <span className={errorClass}>{errors.firstName.message}</span>}
         </div>
         <div className="flex flex-col gap-1">
-          <label className={labelClass}>Apellido</label>
+          <label className={labelClass}>Apellido*</label>
           <input {...register('lastName')} className={inputClass} />
           {errors.lastName && <span className={errorClass}>{errors.lastName.message}</span>}
         </div>
