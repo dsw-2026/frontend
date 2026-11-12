@@ -5,6 +5,7 @@ import { Button } from '@/shared/components/ui/Button'
 import { FotoUpload } from '@/shared/components/ui/PhotoUpload'
 import { useLocalityList } from '@/features/locality/useLocalities'
 import { PublisherType, type PublisherInput } from '../publisher.model'
+import { useState } from 'react'
 
 const PUBLISHER_TYPE_LABELS: Record<PublisherType, string> = {
   SHELTER: 'Refugio',
@@ -52,6 +53,7 @@ const errorClass = 'text-xs text-red-600 dark:text-red-400'
 
 export function PublisherForm({ initialValues, isEdit, onSubmit, submitting }: PublisherFormProps) {
   const { data: localities = [] } = useLocalityList()
+  const [showPassword, setShowPassword] = useState(false)
   const {
     register,
     handleSubmit,
@@ -108,7 +110,21 @@ export function PublisherForm({ initialValues, isEdit, onSubmit, submitting }: P
         </div>
         <div className="flex flex-col gap-1">
           <label className={labelClass}>{isEdit ? 'Nueva contraseña (opcional)' : 'Contraseña*'}</label>
-          <input type="password" {...register('password')} className={inputClass} />
+          <div className="relative">
+            <input
+              type={showPassword ? 'text' : 'password'}
+              {...register('password')}
+              className={`${inputClass} pr-12`}
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword((v) => !v)}
+              aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+              className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-xl rounded-md text-gray-500 hover:text-gray-700 transition-colors"
+            >
+              {showPassword ? '🙈' : '👁️'}
+            </button>
+          </div>
           {errors.password && <span className={errorClass}>{errors.password.message}</span>}
         </div>
         <div className="flex flex-col gap-1 sm:col-span-2">

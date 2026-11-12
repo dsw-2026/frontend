@@ -5,6 +5,7 @@ import { Button } from '@/shared/components/ui/Button'
 import { FotoUpload } from '@/shared/components/ui/PhotoUpload'
 import { useLocalityList } from '@/features/locality/useLocalities'
 import { HousingType, type AdopterInput } from '../adopter.model'
+import { useState } from 'react'
 
 const HOUSING_LABELS: Record<HousingType, string> = { HOUSE: 'Casa', APARTMENT: 'Departamento', OTHER: 'Otro' }
 
@@ -52,7 +53,7 @@ export function AdopterForm({ initialValues, isEdit, onSubmit, submitting }: Pro
     defaultValues: { ...initialValues },
     mode: "onTouched"
   })
-
+  const [showPassword, setShowPassword] = useState(false)
   const profilePhoto = useWatch({ control, name: 'profilePhoto' })
 
   const submit = handleSubmit((val) => {
@@ -83,7 +84,21 @@ export function AdopterForm({ initialValues, isEdit, onSubmit, submitting }: Pro
           </div>
           <div>
             <label className={labelCls}>{isEdit ? 'Nueva contraseña' : 'Contraseña*'}</label>
-            <input type="password" {...register('password')} className={inputCls} />
+            <div className="relative">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                {...register('password')}
+                className={`${inputCls} pr-12`}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword((v) => !v)}
+                aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+                className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-xl rounded-md text-gray-500 hover:text-gray-700 transition-colors"
+              >
+                {showPassword ? '🙈' : '👁️'}
+              </button>
+            </div>
             {errors.password && <span className={errCls}>{errors.password.message}</span>}
           </div>
           <div className="sm:col-span-2">
