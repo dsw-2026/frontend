@@ -10,7 +10,7 @@ Consume la API REST del backend de Fluffy y permite a los adoptantes buscar masc
 |---|---|
 | Aplicación (frontend) | https://fluffy-front.netlify.app |
 
-Credenciales de prueba para la aplicación deployada: ver la [proposal] (https://github.com/dsw-2026/tp/blob/main/docs/proposal.md) del proyecto.
+Credenciales de prueba para la aplicación deployada: ver la [proposal](https://github.com/dsw-2026/tp/blob/main/docs/proposal.md) del proyecto.
 
 ## 📑 Índice
 
