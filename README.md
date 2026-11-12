@@ -4,6 +4,14 @@ Aplicación web del sistema de adopción de mascotas Fluffy, desarrollada para l
 
 Consume la API REST del backend de Fluffy y permite a los adoptantes buscar mascotas y solicitar su adopción, a los publicadores (refugios, rescatistas y hogares de tránsito) gestionar sus publicaciones y las solicitudes recibidas, y a los administradores gestionar el sistema.
 
+## 🌐 Deploy
+
+| Recurso | Link |
+|---|---|
+| Aplicación (frontend) | https://fluffy-front.netlify.app |
+
+Credenciales de prueba para la aplicación deployada: ver la [proposal](https://github.com/utnfrrodsw/tp/blob/main/proposal.md) del proyecto.
+
 ## 📑 Índice
 
 - [Tecnologías](#-tecnologías)
@@ -12,8 +20,11 @@ Consume la API REST del backend de Fluffy y permite a los adoptantes buscar masc
 - [Decisiones de diseño](#-decisiones-de-diseño)
 - [Requisitos previos](#-requisitos-previos)
 - [Instalación](#️-instalación)
+- [Variables de entorno](#-variables-de-entorno)
 - [Ejecución](#️-ejecución)
 - [Scripts disponibles](#-scripts-disponibles)
+- [Tests](#-tests)
+- [Deploy en Netlify](#-deploy-en-netlify)
 - [Autenticación y rutas protegidas](#-autenticación-y-rutas-protegidas)
 - [Mapa de rutas](#-mapa-de-rutas)
 - [Estructura del proyecto](#-estructura-del-proyecto)
@@ -34,6 +45,7 @@ Consume la API REST del backend de Fluffy y permite a los adoptantes buscar masc
 | Notificaciones | Sonner |
 | Linter | ESLint (+ typescript-eslint) |
 | Gestor de paquetes | pnpm |
+| Hosting | Netlify |
 
 ## 👥 Funcionalidades por rol
 
@@ -111,7 +123,7 @@ El código (componentes, variables, rutas) está en inglés, y los textos que ve
 
 - Node.js 20 o superior.
 - pnpm — si no lo tenés: `npm install -g pnpm`
-- El [backend de Fluffy](https://github.com/dsw-2026/backend) corriendo (por defecto en `http://localhost:3000`).
+- El [backend de Fluffy](https://github.com/dsw-2026/backend) corriendo (por defecto en `http://localhost:3000`), o bien usar el backend deployado (ver [Variables de entorno](#-variables-de-entorno)).
 
 ## ⚙️ Instalación
 
@@ -120,6 +132,26 @@ El código (componentes, variables, rutas) está en inglés, y los textos que ve
 ```bash
 pnpm install
 ```
+
+## 🔧 Variables de entorno
+
+El front usa una sola variable, que indica la URL base de la API:
+
+| Variable | Descripción | Valor por defecto |
+|---|---|---|
+| `VITE_API_URL` | URL base de la API del backend (incluye `/api` al final) | `http://localhost:3000/api` |
+
+**En desarrollo local no hace falta configurar nada** si el backend corre en `http://localhost:3000`.
+
+Para apuntar a otro backend (por ejemplo, el deployado), creá un archivo `.env` en la raíz del proyecto:
+
+```dotenv
+VITE_API_URL=https://backend-production-9a08dbe2.up.railway.app/api
+```
+
+> ℹ️ Las variables `VITE_*` se incorporan al código **en el momento del build**. Si cambiás su valor, hay que volver a ejecutar el build (o volver a deployar) para que tenga efecto.
+
+> ⚠️ Al apuntar a un backend remoto, el origen del front debe estar habilitado en la variable `CORS_ORIGIN` de ese backend.
 
 ## ▶️ Ejecución
 
@@ -139,6 +171,43 @@ La aplicación queda corriendo en `http://localhost:5173`.
 | `pnpm build` | Verifica los tipos (`tsc -b`) y genera el build de producción en `dist/`. |
 | `pnpm preview` | Sirve localmente el build de producción. |
 | `pnpm lint` | Ejecuta ESLint sobre el proyecto. |
+| `pnpm test` | Ejecuta los tests automatizados. |
+
+## 🧪 Tests
+
+El proyecto cuenta con tests automatizados, que se ejecutan con:
+
+```bash
+pnpm test
+```
+
+La configuración de los tests unitarios está en `src/setupTests.ts`, y los tests de extremo a extremo (e2e) están en la carpeta `e2e/`.
+
+## 🚀 Deploy en Netlify
+
+El front está deployado en [Netlify](https://www.netlify.com) en https://fluffy-front.netlify.app.
+
+### Configuración del sitio
+
+| Campo | Valor |
+|---|---|
+| Build command | `pnpm run build` |
+| Publish directory | `dist` |
+| Variable de entorno | `VITE_API_URL=https://backend-production-9a08dbe2.up.railway.app/api` |
+
+### Rutas de la SPA
+
+Como es una *single page application*, recargar una ruta interna (por ejemplo `/adopt`) haría que el servidor busque un archivo que no existe. El archivo `public/_redirects` resuelve esto devolviendo siempre `index.html`, y deja que React Router resuelva la ruta:
+
+```
+/* /index.html 200
+```
+
+### Conexión con el backend
+
+- La URL de la API se configura con `VITE_API_URL`.
+- El backend habilita el origen del front mediante su variable `CORS_ORIGIN` (`https://fluffy-front.netlify.app`).
+- Como el front y el backend están en dominios distintos, la cookie de sesión se emite con `Secure` y `SameSite=None`, y las peticiones se envían con credenciales incluidas.
 
 ## 🔐 Autenticación y rutas protegidas
 
@@ -214,7 +283,10 @@ src/
 ├── assets/                         # logo e imágenes
 ├── App.tsx
 ├── main.tsx                        # punto de entrada
+├── setupTests.ts                   # configuración de los tests
 └── index.css                       # estilos globales (Tailwind)
+e2e/                                # tests de extremo a extremo
+public/                             # archivos estáticos (incluye _redirects para Netlify)
 ```
 
 ## 🚨 Manejo de errores
